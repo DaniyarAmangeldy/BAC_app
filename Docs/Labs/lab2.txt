@@ -1,0 +1,7 @@
+﻿User
+
+
+* User Can watch the videos
+* User Share link with friends
+* User can follow on instagram
+* Comment Videos, Like or Dislike
