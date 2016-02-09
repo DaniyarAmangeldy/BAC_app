@@ -1,0 +1,13 @@
+﻿1. Example #5
+
+
+*  Screen #7 has mistake with number of the screen. Typing mistake.
+*  Screen #7 has no description how to make the screen appear.
+*  Screenflow has no fully connection between screens.Screenflow divides into 2 parts,    Screen #7 looks like independent screen.  
+
+
+2)  Benefits 
+
+
+*      The main aim of screenshots is to preview a product to customer, to prevent misunderstanding between customer and developer. 
+*      By screenshot developer can easily understand project’s direction.
