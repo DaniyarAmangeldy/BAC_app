@@ -1,0 +1,7 @@
+﻿1)
+* There are only 4 use cases instead of 8 which described in instructions from assignment-3.
+* Text description has written in one page  with sequence diagram.
+* 2.2.4 diagram has ‘controller’, that not written in definition. Logically, all diagrams connects to database through server. In this example, we see , that application connects to database through ‘controller’.
+2)
+* For watching videos, application needs some server.
+* User can add comment, like and share video. For do this user has to authorize using social networks.
