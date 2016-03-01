@@ -1,0 +1,21 @@
+1. Dauren Yeraly
+	3.2.5.1.2 All the fields must be filled correctly.
+	It’s ambigious and incomplete, because there is no meaning of word “correctly”(what does it check exactly) and also there is no word about that system checks are there empty 	fields or not. 
+        
+
+
+2. Daniyar Amangeldy 
+	3.2.3.2.6 The System shall automatically check “User ID” using Ajax. 
+	Incomplete requierment, because there are no information about error handling(ex. If the system find employee, that already has in employee list, shall system add him or 	not?) 
+
+
+3. Tursunova Botagoz 
+	a. 3.2.6.4.1 Administrator and dean can view the grade details.
+	b. 3.2.6.4.2 [Inverse Requirement] System should not allow another  user to view grade details only admin, teacher and student to whom belong this grade.
+	Not unambiguous requirement, because requirements contradict each other. 
+
+
+4. Ayt Yerzhassyn
+   	a. 3.2.5.2.2 System cannot change the name of course if someone had already taken course.
+   	b. 3.2.5.2.5 [Inverse Requirement] System should not avoid changing the name of course if someone had already taken it.
+   	It’s ambigious, because system not allows to change the name of course when its already taken(look at 3.2.5.2.2). After we can see that system proffer to male some changes 	in the name of course(3.2.5.2.5).
