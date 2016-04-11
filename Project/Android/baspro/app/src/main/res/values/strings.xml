@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">B.A.S. Production</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="gallery">галерея fragment</string>
+    <string name="news">новости fragment</string>
+    <string name="video">видео fragment</string>
+
+    <string name="resident">резидент fragment</string>
+    <string name="accaunt">аккаунт fragment</string>
+    <string name="main_tab_1">Лента</string>
+    <string name="main_tab_2">Видео</string>
+    <string name="main_tab_3">Резиденты</string>
+    <string name="main_tab_4">Аккаунт</string>
+    <string name="internet_error">Ошибка соединения</string>
+    <string name="retry">повторить</string>
+
+
+</resources>
