@@ -1,6 +1,7 @@
 package com.example.daniyar_amangeldy.baspro.RecyclerView;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.example.daniyar_amangeldy.baspro.R;
 import com.example.daniyar_amangeldy.baspro.realm.Instagram;
 import com.squareup.picasso.Picasso;
+import com.victor.loading.rotate.RotateLoading;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,8 +36,29 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.with(context).load(post.get(position).getUrl().toString()).into(holder.Photo);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        holder.progressBar.setVisibility(View.VISIBLE);
+        holder.Photo.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+        holder.progressBar.start();
+        Picasso.with(context).load(post.get(position).getUrl().toString())
+                .into(holder.Photo, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        if (holder.progressBar != null) {
+                            holder.progressBar.stop();
+                            holder.progressBar.setVisibility(View.GONE);
+                            holder.Photo.setBackgroundColor(Color.WHITE);
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+
+
+        //Picasso.with(context).load(post.get(position).getUrl().toString()).into(holder.Photo);
 
         holder.Desc.setText(post.get(position).getText().toString());
         holder.TimeString.setText(getDateCurrentTimeZone(Long.valueOf(post.get(position).getTime().toString())));
@@ -67,6 +91,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         TextView TimeString;
         TextView Desc;
         ImageView Photo;
+        RotateLoading progressBar;
         ViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
@@ -75,6 +100,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
             Photo = (ImageView)itemView.findViewById(R.id.person_photo);
             Photo.setHorizontalScrollBarEnabled(false);
             Photo.setVerticalScrollBarEnabled(false);
+            progressBar = (RotateLoading) itemView.findViewById(R.id.rotateloadingPhoto);
         }
     }
 

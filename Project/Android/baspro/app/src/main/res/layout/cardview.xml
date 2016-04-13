@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
 
     >
 
@@ -21,6 +22,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="6dp"
+                android:src="@drawable/instagram"
+                android:gravity="left"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_alignParentTop="true"
@@ -32,30 +42,44 @@
                 android:gravity="right"
                 android:textColor="@color/colorText"
                 />
-
-
-
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:id="@+id/person_photo"
                 android:layout_below="@id/person_time"
                 android:layout_margin="10dp"
+                android:id="@+id/Photo_layout">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:adjustViewBounds="true"
+                    android:id="@+id/person_photo"
+
+                    />
+                <com.victor.loading.rotate.RotateLoading
+                    android:id="@+id/rotateloadingPhoto"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:loading_width="5dp"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
 
 
-                />
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
-                android:layout_above="@id/person_photo"/>
+                android:layout_above="@id/Photo_layout"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/person_name"
                 android:layout_margin="10dp"
                 android:layout_marginRight="5dp"
-                android:layout_below="@+id/person_photo"
+                android:layout_below="@+id/Photo_layout"
                 android:textSize="13sp"
                 android:textColor="@color/colorText"
                 />

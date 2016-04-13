@@ -2,6 +2,7 @@ package com.example.daniyar_amangeldy.baspro;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import io.realm.Realm;
@@ -16,6 +17,7 @@ import com.example.daniyar_amangeldy.baspro.Fragment.NewsFragment;
 import com.example.daniyar_amangeldy.baspro.Fragment.ResidentFragment;
 import com.example.daniyar_amangeldy.baspro.Fragment.VideoFragment;
 import com.example.daniyar_amangeldy.baspro.realm.Instagram;
+import com.example.daniyar_amangeldy.baspro.realm.RecentVideos;
 import com.example.daniyar_amangeldy.baspro.realm.Resident;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
@@ -30,7 +32,13 @@ public class MainActivity extends AppCompatActivity {
     Realm realm;
     private String imageUrlString;
     private String Textstring;
+    private String ImageUrlStringYoutube;
+    private String VideoUrlYoutube;
+    private String TextStringYoutube;
     private String TimeString;
+    private JSONObject urlJSONObject;
+    private JSONObject TitleJsonObject;
+    private JSONObject videoJSONObject;
     private JSONObject mainTextJsonObject;
     private JSONObject mainImageJsonObject;
 
@@ -44,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new NewsFragment()).commit();
+
         realm = Realm.getInstance(getApplicationContext());
 
 
@@ -67,10 +77,58 @@ public class MainActivity extends AppCompatActivity {
         realm.commitTransaction();
         realm.refresh();
 
+       AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://www.googleapis.com/youtube/v3/search?key=AIzaSyBawDQDFNHNE33OcXpUUqZGn2QSdZPv3pc&channelId=UCmh_2Vwnh4Ae8MkzFn2uPAA&part=id,snippet&order=date&maxResults=10",
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        realm.beginTransaction();
+                        realm.where(RecentVideos.class).findAll().clear();
+                        for (int index = 0; index < 10; index++) {
+
+                            try {
+                                TitleJsonObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet");
+                                urlJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("high");
+                                videoJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("id");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            try {
+                                TextStringYoutube = TitleJsonObject.getString("title");
+                                ImageUrlStringYoutube = urlJSONObject.getString("url");
+                                VideoUrlYoutube = videoJSONObject.getString("videoId");
+                                Log.e("url",ImageUrlStringYoutube);
+
+
+
+                                RecentVideos recent = realm.createObject(RecentVideos.class);
+                                recent.setName(TextStringYoutube);
+                                recent.setImg_url(ImageUrlStringYoutube);
+                                recent.setVideo_url(VideoUrlYoutube);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        Log.e("Youtube", "OK");
+                        realm.commitTransaction();
+                    }
+                },
+
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        ), "tag_json_obj");
 
 
 
 
+//275855784 || 482993112
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://api.instagram.com/v1/users/482993112/media/recent/?access_token=2253563781.137bf98.bd1c3693d2b84f80a7ab8d661f641437&scount=20",
                 new Response.Listener<JSONObject>() {
 
@@ -90,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                                 imageUrlString = mainImageJsonObject.getString("url");
                                 if (response.getJSONArray("data").getJSONObject(index).isNull("caption")) {
                                     Textstring = " ";
-                                    TimeString = mainTextJsonObject.getString("created_time");
+                                    TimeString = " ";
                                 } else {
                                     Textstring = mainTextJsonObject.getString("text");
                                     TimeString = mainTextJsonObject.getString("created_time");
@@ -108,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }
                         realm.commitTransaction();
+                        realm.refresh();
                     }
                 },
 
@@ -115,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
                     }
                 }
         ), "tag_json_obj");
@@ -123,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new NewsFragment()).commit();
+
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         BottomNavigationItem newsTab = new BottomNavigationItem

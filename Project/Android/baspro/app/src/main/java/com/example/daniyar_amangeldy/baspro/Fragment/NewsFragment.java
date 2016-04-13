@@ -2,12 +2,14 @@ package com.example.daniyar_amangeldy.baspro.Fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,55 +87,67 @@ public class NewsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                    AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://api.instagram.com/v1/users/482993112/media/recent/?access_token=2253563781.137bf98.bd1c3693d2b84f80a7ab8d661f641437&scount=20",
-                            new Response.Listener<JSONObject>() {
 
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    realm.beginTransaction();
-                                    realm.where(Instagram.class).findAll().clear();;
-                                    for (int index = 0; index < 20; index++) {
+                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://api.instagram.com/v1/users/482993112/media/recent/?access_token=2253563781.137bf98.bd1c3693d2b84f80a7ab8d661f641437&scount=20",
+                        new Response.Listener<JSONObject>() {
 
-                                        try {
-                                            mainImageJsonObject = response.getJSONArray("data").getJSONObject(index).getJSONObject("images").getJSONObject("standard_resolution");
-                                            mainTextJsonObject = response.getJSONArray("data").getJSONObject(index).optJSONObject("caption");
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                        try {
-                                            imageUrlString = mainImageJsonObject.getString("url");
-                                            if (response.getJSONArray("data").getJSONObject(index).isNull("caption")) {
-                                                Textstring = " ";
-                                                TimeString = mainTextJsonObject.getString("created_time");
-                                            } else {
-                                                Textstring = mainTextJsonObject.getString("text");
-                                                TimeString = mainTextJsonObject.getString("created_time");
-                                            }
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                realm.beginTransaction();
+                                Log.e("RefreshStatus", "Refreshing");
+                                realm.where(Instagram.class).findAll().clear();
+                                ;
+                                for (int index = 0; index < 20; index++) {
 
-
-                                            Instagram insta = realm.createObject(Instagram.class);
-                                            insta.setText(Textstring);
-                                            insta.setUrl(imageUrlString);
-                                            insta.setTime(TimeString);
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
+                                    try {
+                                        mainImageJsonObject = response.getJSONArray("data").getJSONObject(index).getJSONObject("images").getJSONObject("standard_resolution");
+                                        mainTextJsonObject = response.getJSONArray("data").getJSONObject(index).optJSONObject("caption");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                    realm.commitTransaction();
-                                }
-                            },
+                                    try {
+                                        imageUrlString = mainImageJsonObject.getString("url");
+                                        if (response.getJSONArray("data").getJSONObject(index).isNull("caption")) {
+                                            Textstring = " ";
+                                            TimeString = " ";
+                                        } else {
+                                            Textstring = mainTextJsonObject.getString("text");
+                                            TimeString = mainTextJsonObject.getString("created_time");
+                                        }
 
-                            new Response.ErrorListener() {
 
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getContext(),getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+                                        Instagram insta = realm.createObject(Instagram.class);
+                                        insta.setText(Textstring);
+                                        insta.setUrl(imageUrlString);
+                                        insta.setTime(TimeString);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
+                                Log.e("Refresh Status","Complete!");
+                                realm.commitTransaction();
+                                realm.refresh();
                             }
-                    ), "tag_json_obj");
-                    swipeRefreshLayout.setRefreshing(false);
+                        },
+
+                        new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Toast.makeText(getContext(), getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                ), "tag_json_obj");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 3000);
+
+
 
 
 
