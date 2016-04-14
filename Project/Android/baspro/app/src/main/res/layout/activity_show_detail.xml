@@ -8,7 +8,7 @@
     >
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/main.appbar"
+        android:id="@+id/main.appbarShowDetail"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -16,7 +16,7 @@
         >
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/main.collapsing"
+            android:id="@+id/main.collapsingShowDetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -27,17 +27,16 @@
             >
 
             <ImageView
-                android:id="@+id/residentDetailBackdrop"
+                android:id="@+id/showDetailBackdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
-                android:src="@drawable/example"
                 app:layout_collapseMode="parallax"
                 />
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/residentDetailToolbar"
+                android:id="@+id/showDetailToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -59,10 +58,29 @@
             android:lineSpacingExtra="8dp"
             android:text="asd"
             android:textColor="@color/white"
-            android:id="@+id/residentDetailText"
+            android:id="@+id/showDetailText"
             android:padding="@dimen/activity_horizontal_margin"
             />
     </android.support.v4.widget.NestedScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:id="@+id/showDetailfab"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_play_arrow_white_36dp"
+        app:layout_anchor="@id/main.appbarShowDetail"
+        app:layout_anchorGravity="bottom|right|end"
+        />
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        app:ft_container_gravity="center"
+        app:ft_color="@color/colorPrimaryDark"
+        android:elevation="2dp"/>
+
 
 
 </android.support.design.widget.CoordinatorLayout>

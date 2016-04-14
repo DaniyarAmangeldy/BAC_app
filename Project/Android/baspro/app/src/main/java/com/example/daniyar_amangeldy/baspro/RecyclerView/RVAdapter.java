@@ -58,9 +58,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
                 });
 
 
-        //Picasso.with(context).load(post.get(position).getUrl().toString()).into(holder.Photo);
 
         holder.Desc.setText(post.get(position).getText().toString());
+        holder.Desc.setTextColor(Color.WHITE);
         holder.TimeString.setText(getDateCurrentTimeZone(Long.valueOf(post.get(position).getTime().toString())));
 
     }

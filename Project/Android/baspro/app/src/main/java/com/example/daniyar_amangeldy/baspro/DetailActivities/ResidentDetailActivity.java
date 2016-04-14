@@ -1,4 +1,4 @@
-package com.example.daniyar_amangeldy.baspro;
+package com.example.daniyar_amangeldy.baspro.DetailActivities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.daniyar_amangeldy.baspro.R;
 
 public class ResidentDetailActivity extends AppCompatActivity {
     ImageView img;
@@ -27,8 +29,8 @@ public class ResidentDetailActivity extends AppCompatActivity {
         desc = (TextView) findViewById(R.id.residentDetailText);
         desc.setText(intent.getStringExtra("desc"));
         img = (ImageView) findViewById(R.id.residentDetailBackdrop);
-        img.setImageDrawable(getResources().getDrawable(intent.getIntExtra("photo", 0)));
-
+        img.setImageDrawable(getResources().getDrawable(R.drawable.patrul));
+        //getResources().getDrawable(intent.getIntExtra("photo", 0))
 
     }
 

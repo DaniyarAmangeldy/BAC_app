@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.example.daniyar_amangeldy.baspro.R;
 import com.example.daniyar_amangeldy.baspro.RecyclerView.RVAdapterResident;
 import com.example.daniyar_amangeldy.baspro.RecyclerView.RecyclerItemClickListener;
-import com.example.daniyar_amangeldy.baspro.ResidentDetailActivity;
+import com.example.daniyar_amangeldy.baspro.DetailActivities.ResidentDetailActivity;
 import com.example.daniyar_amangeldy.baspro.realm.Resident;
 
 import io.realm.Realm;

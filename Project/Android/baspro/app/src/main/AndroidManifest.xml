@@ -27,12 +27,22 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ResidentDetailActivity">
+        <activity android:name=".DetailActivities.ResidentDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".Youtube_player"></activity>
+        <activity android:name=".Youtube_player" />
+        <activity
+            android:name=".Youtube.youtubeActivity"
+            android:label="@string/title_activity_youtube"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.daniyar_amangeldy.baspro.MainActivity" />
+        </activity>
+        <activity android:name=".DetailActivities.ShowDetailActivity"></activity>
     </application>
 
 </manifest>

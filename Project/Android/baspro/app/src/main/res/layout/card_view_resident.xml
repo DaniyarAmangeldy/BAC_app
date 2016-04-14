@@ -19,6 +19,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/cardview"
             >
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/resident_text1"
         android:layout_marginTop="10dp"
+        android:textColor="@color/white"
         android:layout_toRightOf="@+id/resident_image"
         android:textSize="25sp"
         />
@@ -41,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/resident_text2"
+        android:textColor="@color/white"
         android:layout_toRightOf="@+id/resident_image"
         android:layout_below="@+id/resident_text1"
         />

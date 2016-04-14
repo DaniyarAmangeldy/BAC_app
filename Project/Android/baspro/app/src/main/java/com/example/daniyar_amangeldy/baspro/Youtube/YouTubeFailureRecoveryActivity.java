@@ -1,6 +1,7 @@
-package com.example.daniyar_amangeldy.baspro;
+package com.example.daniyar_amangeldy.baspro.Youtube;
 
-import com.example.daniyar_amangeldy.baspro.Keys.DeveloperKey;
+import com.example.daniyar_amangeldy.baspro.Youtube.Keys.DeveloperKey;
+import com.example.daniyar_amangeldy.baspro.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;

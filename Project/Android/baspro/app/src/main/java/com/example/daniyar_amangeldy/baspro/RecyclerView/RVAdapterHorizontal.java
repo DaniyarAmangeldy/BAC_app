@@ -39,6 +39,7 @@ public class RVAdapterHorizontal extends  RecyclerView.Adapter<RVAdapterHorizont
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.RecentDesc.setText(recent.get(position).getName());
+        holder.RecentDesc.setTextColor(Color.WHITE);
         holder.progressBar.setVisibility(View.VISIBLE);
         holder.RecentPhoto.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
         holder.progressBar.start();

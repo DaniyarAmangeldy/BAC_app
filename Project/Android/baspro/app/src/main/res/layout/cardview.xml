@@ -11,16 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cv"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:background="@color/cardview"
         android:layout_marginTop="8dp"
         card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="5dp"
+        card_view:cardElevation="8dp"
 
         >
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/cardview"
             >
             <ImageView
                 android:layout_width="wrap_content"
@@ -38,21 +38,19 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/person_time"
                 android:layout_margin="10dp"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 android:gravity="right"
-                android:textColor="@color/colorText"
+                android:textColor="@color/white"
                 />
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="450dp"
                 android:layout_below="@id/person_time"
-                android:layout_margin="10dp"
                 android:id="@+id/Photo_layout">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
-                    android:adjustViewBounds="true"
+                    android:background="@color/colorPrimaryDark"
                     android:id="@+id/person_photo"
 
                     />
@@ -80,7 +78,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginRight="5dp"
                 android:layout_below="@+id/Photo_layout"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 android:textColor="@color/colorText"
                 />
 
