@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fk0-3j-eyd">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--GalleryVC-->
+        <scene sceneID="T9w-0D-reh">
+            <objects>
+                <viewController id="JdN-zB-97f" customClass="GalleryVC" customModule="Bas_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8XW-oc-huk"/>
+                        <viewControllerLayoutGuide type="bottom" id="42A-OG-P8A"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pUJ-gh-qsK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Gallery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzJ-sy-ljz">
+                                <rect key="frame" x="20" y="20" width="54" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="bP3-Ow-dd3"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H4q-TZ-caX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="22" y="2441"/>
+        </scene>
+        <!--sad-->
+        <scene sceneID="mHq-M0-Vjj">
+            <objects>
+                <viewController title="sad" id="cKq-cq-5zK" customClass="NewsFeedVC" customModule="Bas_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7my-wS-oPp"/>
+                        <viewControllerLayoutGuide type="bottom" id="dkX-si-tgE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="L5R-nR-rcf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0np-If-BMt">
+                                <rect key="frame" x="0.0" y="28" width="600" height="523"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Mi6-RO-mAS">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="cKq-cq-5zK" id="iQO-cS-D7h"/>
+                                    <outlet property="delegate" destination="cKq-cq-5zK" id="X1u-3E-PrT"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="0np-If-BMt" secondAttribute="trailing" id="Iv8-gf-g9L"/>
+                            <constraint firstItem="0np-If-BMt" firstAttribute="leading" secondItem="L5R-nR-rcf" secondAttribute="leading" id="Vl1-Kp-587"/>
+                            <constraint firstItem="0np-If-BMt" firstAttribute="top" secondItem="L5R-nR-rcf" secondAttribute="topMargin" constant="28" id="Zux-mt-940"/>
+                            <constraint firstItem="0np-If-BMt" firstAttribute="bottom" secondItem="dkX-si-tgE" secondAttribute="top" id="uAX-E4-hZS"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Новости" id="NlJ-K7-Bwx"/>
+                    <connections>
+                        <outlet property="collectionView" destination="0np-If-BMt" id="kYy-MY-rCV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TXk-x1-3k6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-649" y="2435"/>
+        </scene>
+        <!--Tab BarVC-->
+        <scene sceneID="tQA-oQ-7h5">
+            <objects>
+                <tabBarController id="fk0-3j-eyd" customClass="TabBarVC" customModule="Bas_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Eef-lL-7KL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="selectedImageTintColor" red="1" green="0.23069598799999999" blue="0.2365921644" alpha="1" colorSpace="calibratedRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="a9s-Af-xNa" kind="relationship" relationship="viewControllers" id="ESD-d1-dez"/>
+                        <segue destination="3WB-oB-KdS" kind="relationship" relationship="viewControllers" id="s7u-Ie-3EO"/>
+                        <segue destination="DHU-3Q-l8C" kind="relationship" relationship="viewControllers" id="Y03-8y-RsH"/>
+                        <segue destination="DLF-lO-xIR" kind="relationship" relationship="viewControllers" id="wCF-NK-nLz"/>
+                        <segue destination="PjF-XM-Ogd" kind="relationship" relationship="viewControllers" id="Wtm-wO-L8U"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DuW-6v-ELw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="20" y="531"/>
+        </scene>
+        <!--Аккаунт-->
+        <scene sceneID="F7b-kb-0ER">
+            <objects>
+                <viewController id="PjF-XM-Ogd" customClass="AccountVC" customModule="Bas_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1kH-di-V3E"/>
+                        <viewControllerLayoutGuide type="bottom" id="x0j-L6-TIf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qwn-Sm-Epl">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ldr-Ju-Gx8">
+                                <rect key="frame" x="20" y="28" width="64" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Аккаунт" image="account_white" id="ggI-sL-36N"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jQG-XZ-Zb8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="976" y="868"/>
+        </scene>
+        <!--Актеры-->
+        <scene sceneID="ecZ-hA-CYC">
+            <objects>
+                <viewController id="DLF-lO-xIR" customClass="StarsVC" customModule="Bas_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="blm-mj-T9M"/>
+                        <viewControllerLayoutGuide type="bottom" id="gCk-Vx-aI3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MMs-ih-iEe">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Actors" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BOe-zb-M7g">
+                                <rect key="frame" x="15" y="28" width="50" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Актеры" image="stars_white" id="pjD-Ok-oas"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="48w-aI-S2X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="976" y="181"/>
+        </scene>
+        <!--Видео-->
+        <scene sceneID="dAd-Aq-dXN">
+            <objects>
+                <viewController id="DHU-3Q-l8C" customClass="VideoVC" customModule="Bas_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2LX-zy-vfW"/>
+                        <viewControllerLayoutGuide type="bottom" id="qRY-Z3-CM6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bC0-xh-S2O">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="awM-kM-90Q">
+                                <rect key="frame" x="20" y="20" width="44" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Видео" image="video_white" id="Sfi-UG-jeO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="brx-MA-jK9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="711" y="1667"/>
+        </scene>
+        <!--Новости-->
+        <scene sceneID="dUd-6N-MAe">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="a9s-Af-xNa" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Новости" image="news_feed_white" id="woe-2X-Ta2"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Nhv-fw-tmR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cKq-cq-5zK" kind="relationship" relationship="rootViewController" id="Ux2-iC-hsC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tml-mt-5Cz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-649" y="1667"/>
+        </scene>
+        <!--Галлерея-->
+        <scene sceneID="NZb-hb-uli">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3WB-oB-KdS" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Галлерея" image="gallery_white" id="lDb-VJ-yea"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3G7-1O-yEz">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="JdN-zB-97f" kind="relationship" relationship="rootViewController" id="4vs-lq-mbi"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UnZ-tn-Gpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="22" y="1667"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="account_white" width="29" height="29"/>
+        <image name="gallery_white" width="29" height="29"/>
+        <image name="news_feed_white" width="29" height="29"/>
+        <image name="stars_white" width="29" height="29"/>
+        <image name="video_white" width="29" height="29"/>
+    </resources>
+</document>
