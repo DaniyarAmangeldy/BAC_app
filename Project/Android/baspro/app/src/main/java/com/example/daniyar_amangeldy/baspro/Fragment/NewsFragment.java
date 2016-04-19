@@ -94,7 +94,7 @@ public class NewsFragment extends Fragment {
                             @Override
                             public void onResponse(JSONObject response) {
                                 realm.beginTransaction();
-                                Log.e("RefreshStatus", "Refreshing");
+                                Log.e("Request JSON", "Making a request...");
                                 realm.where(Instagram.class).findAll().clear();
                                 ;
                                 for (int index = 0; index < 20; index++) {
@@ -102,8 +102,10 @@ public class NewsFragment extends Fragment {
                                     try {
                                         mainImageJsonObject = response.getJSONArray("data").getJSONObject(index).getJSONObject("images").getJSONObject("standard_resolution");
                                         mainTextJsonObject = response.getJSONArray("data").getJSONObject(index).optJSONObject("caption");
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
+                                        Log.e("Refresh Status", "Complete!");
                                     }
                                     try {
                                         imageUrlString = mainImageJsonObject.getString("url");
@@ -126,7 +128,7 @@ public class NewsFragment extends Fragment {
                                     }
 
                                 }
-                                Log.e("Refresh Status","Complete!");
+
                                 realm.commitTransaction();
                                 realm.refresh();
                             }
@@ -137,6 +139,7 @@ public class NewsFragment extends Fragment {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getContext(), getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+                                Log.e("ConnectionTimeOut","Offline mode");
                             }
                         }
                 ), "tag_json_obj");

@@ -14,6 +14,9 @@
     <color name="cardview">#607D8B</color>
     <color name="statusbarDark">#37474F</color>
     <color name="toolbarcolorDark">#455A64</color>
+    <color name = "black">#000000</color>
+    <color name = "selectedVideo">#22FFFFFF</color>
+
 
 
 

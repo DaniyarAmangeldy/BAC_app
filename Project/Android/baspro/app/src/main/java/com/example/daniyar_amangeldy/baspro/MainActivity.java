@@ -105,53 +105,55 @@ public class MainActivity extends AppCompatActivity {
         realm.commitTransaction();
         realm.refresh();
 
+        Log.e("Request JSON","Sending a request to https://www.googleapis.com/youtube/v3/");
        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://www.googleapis.com/youtube/v3/search?key=AIzaSyBawDQDFNHNE33OcXpUUqZGn2QSdZPv3pc&channelId=UCmh_2Vwnh4Ae8MkzFn2uPAA&part=id,snippet&order=date&maxResults=10",
-                new Response.Listener<JSONObject>() {
+               new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        realm.beginTransaction();
-                        realm.where(RecentVideos.class).findAll().clear();
-                        for (int index = 0; index < 10; index++) {
+                   @Override
+                   public void onResponse(JSONObject response) {
+                       realm.beginTransaction();
+                       realm.where(RecentVideos.class).findAll().clear();
+                       for (int index = 0; index < 10; index++) {
 
-                            try {
-                                TitleJsonObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet");
-                                urlJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("high");
-                                videoJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("id");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                TextStringYoutube = TitleJsonObject.getString("title");
-                                ImageUrlStringYoutube = urlJSONObject.getString("url");
-                                VideoUrlYoutube = videoJSONObject.getString("videoId");
-                                Log.e("url",ImageUrlStringYoutube);
+                           try {
+                               TitleJsonObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet");
+                               urlJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("high");
+                               videoJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("id");
+                           } catch (JSONException e) {
+                               e.printStackTrace();
+                           }
+                           try {
+                               TextStringYoutube = TitleJsonObject.getString("title");
+                               ImageUrlStringYoutube = urlJSONObject.getString("url");
+                               VideoUrlYoutube = videoJSONObject.getString("videoId");
+                               Log.e("url", ImageUrlStringYoutube);
 
 
+                               RecentVideos recent = realm.createObject(RecentVideos.class);
+                               recent.setName(TextStringYoutube);
+                               recent.setImg_url(ImageUrlStringYoutube);
+                               recent.setVideo_url(VideoUrlYoutube);
 
-                                RecentVideos recent = realm.createObject(RecentVideos.class);
-                                recent.setName(TextStringYoutube);
-                                recent.setImg_url(ImageUrlStringYoutube);
-                                recent.setVideo_url(VideoUrlYoutube);
+                           } catch (JSONException e) {
+                               e.printStackTrace();
+                           }
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                       }
+                       Log.e("Request JSON", "Request done succesfully! response length:"+String.valueOf(response.length()));
+                       realm.commitTransaction();
+                   }
+               },
 
-                        }
-                        Log.e("Youtube", "OK");
-                        realm.commitTransaction();
-                    }
-                },
+               new Response.ErrorListener() {
 
-                new Response.ErrorListener() {
+                   @Override
+                   public void onErrorResponse(VolleyError error) {
+                       Toast.makeText(getApplicationContext(), getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
+                       Log.e("Request JSON","Request Fail. ConnectionTimeOut");
+                   }
+               }
+       ), "tag_json_obj");
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                    }
-                }
-        ), "tag_json_obj");
 
 
 

@@ -44,12 +44,13 @@
                 />
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="450dp"
+                android:layout_height="360dp"
                 android:layout_below="@id/person_time"
                 android:id="@+id/Photo_layout">
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:adjustViewBounds="true"
                     android:background="@color/colorPrimaryDark"
                     android:id="@+id/person_photo"
 

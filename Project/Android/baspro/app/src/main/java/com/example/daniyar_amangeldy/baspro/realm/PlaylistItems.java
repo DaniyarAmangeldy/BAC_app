@@ -3,9 +3,9 @@ package com.example.daniyar_amangeldy.baspro.realm;
 import io.realm.RealmObject;
 
 /**
- * Created by Daniyar_Amangeldy on 4/11/16.
+ * Created by Daniyar_Amangeldy on 4/15/16.
  */
-public class RecentVideos extends RealmObject {
+public class PlaylistItems extends RealmObject {
     public String name;
     public String img_url;
     public String video_url;

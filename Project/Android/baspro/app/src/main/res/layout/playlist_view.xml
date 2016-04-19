@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<ImageView
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_marginTop="20dp"
-    android:id="@+id/arrowRight"
-    android:src="@drawable/ic_keyboard_arrow_right_black_18dp"
-    android:visibility="invisible"
-    />
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:background="@drawable/bg_key"
+    >
+<RelativeLayout
+    android:id="@+id/playlist_item"
+     android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="60dp"
+        android:layout_width="100dp"
+        android:layout_height="56dp"
         android:id="@+id/imagePlaylist"
-        android:layout_toRightOf="@id/arrowRight"
+        android:background="@drawable/bg_key"
         android:src="@drawable/test"/>
+
     <TextView
         android:layout_width="220dp"
         android:layout_height="40dp"
-        android:text="Example Text asdasd asd asd asdasdasdasdasdsadasd"
+        android:text="Infinity - One Direction - KHS  The overtunes"
         android:layout_marginLeft="8dp"
+        android:paddingRight="10dp"
+        android:textSize="15sp"
         android:id="@+id/textPlaylist"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/imagePlaylist"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1:30"
-        android:id="@+id/timePlaylist"
-        android:textColor="@color/white"
+
+
+    <FrameLayout
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:id="@+id/colorTime"
         android:layout_alignBottom="@id/imagePlaylist"
-        android:layout_marginRight="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_alignRight="@id/imagePlaylist"/>
+        android:layout_alignRight="@id/imagePlaylist"
+        android:background="@color/colorPrimaryDark">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1:30"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:id="@+id/timePlaylist"
+            android:textColor="@color/white"
+            />
+    </FrameLayout>
+
+
 
 
 </RelativeLayout>
+</LinearLayout>
