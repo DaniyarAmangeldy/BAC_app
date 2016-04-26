@@ -11,9 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.daniyar_amangeldy.baspro.R;
-import com.example.daniyar_amangeldy.baspro.realm.RecentVideos;
+import com.example.daniyar_amangeldy.baspro.realm.PlaylistItems;
 import com.squareup.picasso.Picasso;
-import com.victor.loading.newton.NewtonCradleLoading;
 import com.victor.loading.rotate.RotateLoading;
 
 import io.realm.RealmResults;
@@ -21,11 +20,11 @@ import io.realm.RealmResults;
 /**
  * Created by Daniyar_Amangeldy on 4/11/16.
  */
-public class RVAdapterHorizontal extends  RecyclerView.Adapter<RVAdapterHorizontal.ViewHolder>{
+public class RVAdapterGrid extends  RecyclerView.Adapter<RVAdapterGrid.ViewHolder>{
     Context context;
-    RealmResults<RecentVideos> recent;
-    public RVAdapterHorizontal(RealmResults<RecentVideos> recent,Context context){
-        this.recent = recent;
+    RealmResults<PlaylistItems> show;
+    public RVAdapterGrid(RealmResults<PlaylistItems> show, Context context){
+        this.show = show;
         this.context = context;
     }
 
@@ -38,29 +37,28 @@ public class RVAdapterHorizontal extends  RecyclerView.Adapter<RVAdapterHorizont
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.RecentDesc.setText(recent.get(position).getName());
-        holder.RecentDesc.setTextColor(Color.WHITE);
         holder.progressBar.setVisibility(View.VISIBLE);
-        holder.RecentPhoto.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+        holder.RecentDesc.setText(show.get(position).getName());
+        holder.RecentDesc.setTextColor(context.getColor(R.color.white));
         holder.progressBar.start();
-        Picasso.with(context).load(recent.get(position).getImg_url().toString())
+        holder.RecentPhoto.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+        Picasso.with(context).load(show.get(position).getImg_url().toString())
                 .into(holder.RecentPhoto, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
-                        if (holder.progressBar != null) {
-                            holder.progressBar.stop();
-                            holder.progressBar.setVisibility(View.GONE);
-                            holder.RecentPhoto.setBackgroundColor(Color.WHITE);
-                            holder.playIcon.setVisibility(View.VISIBLE);
+                        holder.RecentPhoto.setBackgroundColor(Color.WHITE);
+                        holder.playIcon.setVisibility(View.VISIBLE);
+                        holder.progressBar.setVisibility(View.GONE);
 
-                        }
                     }
+
 
                     @Override
                     public void onError() {
 
                     }
                 });
+
         //Picasso.with(context).load("recent.get(position).getImg_url().toString()").into(holder.RecentPhoto);
 
 
@@ -68,22 +66,23 @@ public class RVAdapterHorizontal extends  RecyclerView.Adapter<RVAdapterHorizont
 
     @Override
     public int getItemCount() {
-        return recent.size();
+        return show.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView RecentDesc;
-        ImageView RecentPhoto;
         RotateLoading progressBar;
+        ImageView RecentPhoto;
         ImageView playIcon;
         ViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cvRecent);
             RecentDesc = (TextView)itemView.findViewById(R.id.descRecent);
             RecentPhoto = (ImageView)itemView.findViewById(R.id.imageRecent);
-            progressBar = (RotateLoading) itemView.findViewById(R.id.rotateloading);
             playIcon  = (ImageView)itemView.findViewById(R.id.playIcon);
+            progressBar = (RotateLoading) itemView.findViewById(R.id.rotateloadingPhoto1);
         }
     }
+
 }

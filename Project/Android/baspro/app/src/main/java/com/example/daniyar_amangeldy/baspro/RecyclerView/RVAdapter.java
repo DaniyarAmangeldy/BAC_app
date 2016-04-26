@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,15 +16,11 @@ import com.example.daniyar_amangeldy.baspro.R;
 import com.example.daniyar_amangeldy.baspro.realm.Instagram;
 import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 import io.realm.RealmResults;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     Context context;
+    int lastPosition=-1;
     RealmResults<Instagram> post;
     public RVAdapter(RealmResults<Instagram> post,Context context){
         this.post = post;
@@ -36,9 +34,19 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     }
 
     @Override
+    public void onViewDetachedFromWindow(ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.itemView.clearAnimation();
+    }
+
+    @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.progressBar.setVisibility(View.VISIBLE);
-        holder.Photo.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+        Animation animation = AnimationUtils.loadAnimation(context,
+                (position > lastPosition) ? R.anim.up_from_bottom
+                        : R.anim.down_from_top);
+        holder.itemView.startAnimation(animation);
+        lastPosition = position;
         holder.progressBar.start();
         Picasso.with(context).load(post.get(position).getUrl().toString())
                 .into(holder.Photo, new com.squareup.picasso.Callback() {
@@ -60,11 +68,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
 
         holder.Desc.setText(post.get(position).getText().toString());
-        holder.Desc.setTextColor(Color.WHITE);
-        holder.TimeString.setText(getDateCurrentTimeZone(Long.valueOf(post.get(position).getTime().toString())));
 
     }
-    public  String getDateCurrentTimeZone(long timestamp) {
+
+   /* public  String getDateCurrentTimeZone(long timestamp) {
         try{
             Calendar calendar = Calendar.getInstance();
             TimeZone tz = TimeZone.getDefault();
@@ -77,6 +84,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         }
         return "";
     }
+    */
 
     @Override
     public int getItemCount() {
@@ -88,7 +96,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
-        TextView TimeString;
         TextView Desc;
         ImageView Photo;
         RotateLoading progressBar;
@@ -96,7 +103,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
             Desc = (TextView)itemView.findViewById(R.id.person_name);
-            TimeString = (TextView)itemView.findViewById(R.id.person_time);
             Photo = (ImageView)itemView.findViewById(R.id.person_photo);
             Photo.setHorizontalScrollBarEnabled(false);
             Photo.setVerticalScrollBarEnabled(false);

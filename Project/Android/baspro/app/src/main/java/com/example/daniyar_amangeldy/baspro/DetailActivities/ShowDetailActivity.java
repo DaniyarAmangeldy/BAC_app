@@ -1,13 +1,13 @@
 package com.example.daniyar_amangeldy.baspro.DetailActivities;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -15,6 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.daniyar_amangeldy.baspro.R;
+import com.example.daniyar_amangeldy.baspro.RecyclerView.RVAdapterGrid;
+import com.example.daniyar_amangeldy.baspro.RecyclerView.RecyclerItemClickListener;
 import com.example.daniyar_amangeldy.baspro.Volley.AppController;
 import com.example.daniyar_amangeldy.baspro.Youtube.youtubeActivity;
 import com.example.daniyar_amangeldy.baspro.realm.PlaylistItems;
@@ -34,45 +36,62 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
     String urlforTime;
     JSONObject videoIdJSONObject;
     String TextStringYoutube;
-    RealmResults<PlaylistItems> playlist;
     String ImageUrlStringYoutube;
     String url;
     String VideoUrlYoutube;
-    String TimeStringYoutube;
+    RecyclerView rv;
+    RVAdapterGrid adapter;
     Realm realm;
+    RealmChangeListener changeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
         realm = Realm.getInstance(this);
-        shl = (SheetLayout) findViewById(R.id.bottom_sheet);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.showDetailfab);
-        ImageView iv = (ImageView) findViewById(R.id.showDetailBackdrop);
-        TextView tv = (TextView) findViewById(R.id.showDetailText);
-        url = "https://www.googleapis.com/youtube/v3/playlistItems?key=AIzaSyBawDQDFNHNE33OcXpUUqZGn2QSdZPv3pc&playlistId="+getIntent().getStringExtra("url")+"&part=id,snippet,contentDetails&order=date&maxResults=20";
-        iv.setImageDrawable(getDrawable(getIntent().getIntExtra("photo", 0)));
-        tv.setText("asdasdsad");
+        rv = (RecyclerView) findViewById(R.id.rvShowDetail);
 
-
-        loadPlaylist(realm,url);
-
-
-
-        shl.setFab(fab);
-        shl.setFabAnimationEndListener(this);
-        fab.setOnClickListener(new View.OnClickListener() {
+        url = "https://www.googleapis.com/youtube/v3/playlistItems?key=AIzaSyBawDQDFNHNE33OcXpUUqZGn2QSdZPv3pc&playlistId="+getIntent().getStringExtra("url")+"&part=id,snippet,contentDetails&order=date&maxResults=50";
+        realm.beginTransaction();
+        realm.where(PlaylistItems.class).findAll().clear();
+        realm.commitTransaction();
+        loadPlaylist(realm, url);
+        final RealmResults<PlaylistItems> show = realm.where(PlaylistItems.class).findAllAsync();
+        rv.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+        adapter = new RVAdapterGrid(show,getApplicationContext());
+        rv.setAdapter(adapter);
+        rv.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                shl.expandFab();
+            public void onItemClick(View view, int position) {
+                Intent i = new Intent(ShowDetailActivity.this, youtubeActivity.class);
+                i.putExtra("position", position);
+                i.putExtra("playlist", show.get(position).getVideo_url());
+                i.putExtra("url",urlforTime);
+                startActivityForResult(i,0);
             }
-        });
+        }));
+
+
+        changeListener = new RealmChangeListener() {
+            @Override
+            public void onChange() {
+
+                adapter.notifyDataSetChanged();
+            }
+        };
+
+        show.addChangeListener(changeListener);
+
+
+
+
     }
 
     public void onFabAnimationEnd() {
         Intent intent = new Intent(this, youtubeActivity.class);
         intent.putExtra("url",urlforTime);
         intent.putExtra("playlist", getIntent().getStringExtra("url"));
+        intent.putExtra("type","playlistType");
         startActivityForResult(intent, 0);
     }
 
@@ -80,13 +99,12 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
             loadPlaylist(realm,url);
-            shl.contractFab();
         }
 
 
     }
     public void loadPlaylist(final Realm realm, String url){
-        urlforTime = "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBawDQDFNHNE33OcXpUUqZGn2QSdZPv3pc&part=contentDetails&id=";
+        urlforTime = "https://www.googleapis.com/youtube/v3/videos?key=AIzaSyBawDQDFNHNE33OcXpUUqZGn2QSdZPv3pc&part=statistics,contentDetails&id=";
         AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, url,
                 new Response.Listener<JSONObject>() {
 
@@ -101,7 +119,7 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
 
                                 try {
                                     TextJsonObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet");
-                                    urlJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("medium");
+                                    urlJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("high");
                                     videoIdJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("contentDetails");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -114,9 +132,7 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
                                     playlist.setName(TextStringYoutube);
                                     playlist.setImg_url(ImageUrlStringYoutube);
                                     playlist.setVideo_url(VideoUrlYoutube);
-                                    urlforTime=urlforTime+VideoUrlYoutube+",";
-
-
+                                    urlforTime = urlforTime + VideoUrlYoutube + ",";
 
 
                                     Log.e("Downloading...", String.valueOf(response.length()));
@@ -131,8 +147,8 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
                         }
                         realm.commitTransaction();
                         realm.refresh();
-                        urlforTime=urlforTime.substring(0, urlforTime.length() - 1);
-                        Log.e("url",urlforTime);
+                        urlforTime = urlforTime.substring(0, urlforTime.length() - 1);
+                        Log.e("url", urlforTime);
 
 
                     }
@@ -146,6 +162,19 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
                     }
                 }
         ), "tag_json_obj");
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                setResult(0);
+
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 }
 

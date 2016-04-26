@@ -10,6 +10,7 @@ public class PlaylistItems extends RealmObject {
     public String img_url;
     public String video_url;
     public String time;
+    public String watch;
 
     public void setName(String name){
         this.name = name;
@@ -31,4 +32,6 @@ public class PlaylistItems extends RealmObject {
     }
     public void setTime(String time){this.time=time;}
     public String getTime(){return time;}
+    public String getWatch(){return watch;}
+    public void setWatch(String watch){this.watch = watch;}
 }

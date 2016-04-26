@@ -1,5 +1,12 @@
 package com.example.daniyar_amangeldy.baspro;
 
+import android.graphics.PorterDuff;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,20 +19,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.daniyar_amangeldy.baspro.Volley.AppController;
-import com.example.daniyar_amangeldy.baspro.Fragment.AccauntFragment;
 import com.example.daniyar_amangeldy.baspro.Fragment.NewsFragment;
 import com.example.daniyar_amangeldy.baspro.Fragment.ResidentFragment;
 import com.example.daniyar_amangeldy.baspro.Fragment.VideoFragment;
 import com.example.daniyar_amangeldy.baspro.realm.Instagram;
-import com.example.daniyar_amangeldy.baspro.realm.RecentVideos;
 import com.example.daniyar_amangeldy.baspro.realm.Resident;
 import com.example.daniyar_amangeldy.baspro.realm.TVshow;
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
-import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     private JSONObject videoJSONObject;
     private JSONObject mainTextJsonObject;
     private JSONObject mainImageJsonObject;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
 
     /**
@@ -53,15 +60,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new NewsFragment()).commit();
-
         realm = Realm.getInstance(getApplicationContext());
-
 
 
         realm.beginTransaction();
         realm.where(Resident.class).findAll().clear();
         realm.where(TVshow.class).findAll().clear();
+
+
+
+
         Resident resident = realm.createObject(Resident.class);
         resident.setDesc("I'm Amirkhaaan");
         resident.setName("Amirkhan");
@@ -84,82 +92,39 @@ public class MainActivity extends AppCompatActivity {
 
         TVshow tv1 = realm.createObject(TVshow.class);
         tv1.setName("Вузеры");
+        tv1.setText(getResources().getString(R.string.VuzeryDesc));
         tv1.setUrl("PLIzJtYvkW5jIzsf5bOSXCGze9ouqqMfQr");
         tv1.setImg_url(R.drawable.vuzery);
 
         TVshow tv2 = realm.createObject(TVshow.class);
         tv2.setName("Басеке");
         tv2.setUrl("PLIzJtYvkW5jIH43etTz_9w9gYCd02_e3h");
+        tv2.setText(getResources().getString(R.string.BasekeDesc));
         tv2.setImg_url(R.drawable.baseke);
 
         TVshow tv3 = realm.createObject(TVshow.class);
         tv3.setName("Патруль");
         tv3.setUrl("PLIzJtYvkW5jKcyyBvYn7DTwBRKLKrcWQa");
+        tv3.setText(getResources().getString(R.string.PatrulDesc));
         tv3.setImg_url(R.drawable.patrul);
 
         TVshow tv4 = realm.createObject(TVshow.class);
         tv4.setName("Кызык Times");
         tv4.setUrl("PLIzJtYvkW5jJmdnz3Lk4igSSktbqCZU3Q");
+        tv4.setText(getResources().getString(R.string.KizikTimesDesc));
         tv4.setImg_url(R.drawable.kiziktimes);
+
 
         realm.commitTransaction();
         realm.refresh();
 
-        Log.e("Request JSON","Sending a request to https://www.googleapis.com/youtube/v3/");
-       AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://www.googleapis.com/youtube/v3/search?key=AIzaSyBawDQDFNHNE33OcXpUUqZGn2QSdZPv3pc&channelId=UCmh_2Vwnh4Ae8MkzFn2uPAA&part=id,snippet&order=date&maxResults=10",
-               new Response.Listener<JSONObject>() {
 
-                   @Override
-                   public void onResponse(JSONObject response) {
-                       realm.beginTransaction();
-                       realm.where(RecentVideos.class).findAll().clear();
-                       for (int index = 0; index < 10; index++) {
-
-                           try {
-                               TitleJsonObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet");
-                               urlJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("high");
-                               videoJSONObject = response.getJSONArray("items").getJSONObject(index).getJSONObject("id");
-                           } catch (JSONException e) {
-                               e.printStackTrace();
-                           }
-                           try {
-                               TextStringYoutube = TitleJsonObject.getString("title");
-                               ImageUrlStringYoutube = urlJSONObject.getString("url");
-                               VideoUrlYoutube = videoJSONObject.getString("videoId");
-                               Log.e("url", ImageUrlStringYoutube);
-
-
-                               RecentVideos recent = realm.createObject(RecentVideos.class);
-                               recent.setName(TextStringYoutube);
-                               recent.setImg_url(ImageUrlStringYoutube);
-                               recent.setVideo_url(VideoUrlYoutube);
-
-                           } catch (JSONException e) {
-                               e.printStackTrace();
-                           }
-
-                       }
-                       Log.e("Request JSON", "Request done succesfully! response length:"+String.valueOf(response.length()));
-                       realm.commitTransaction();
-                   }
-               },
-
-               new Response.ErrorListener() {
-
-                   @Override
-                   public void onErrorResponse(VolleyError error) {
-                       Toast.makeText(getApplicationContext(), getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                       Log.e("Request JSON","Request Fail. ConnectionTimeOut");
-                   }
-               }
-       ), "tag_json_obj");
-
-
+        Log.e("Request JSON", "Sending a request to https://www.googleapis.com/youtube/v3/");
 
 
 
 //275855784 || 482993112
-        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://api.instagram.com/v1/users/482993112/media/recent/?access_token=2253563781.137bf98.bd1c3693d2b84f80a7ab8d661f641437&scount=20",
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://api.instagram.com/v1/users/2274030128/media/recent/?access_token=2274030128.54c83de.869c11553138464d905bf0057e4da6ee&scount=20",
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -170,18 +135,21 @@ public class MainActivity extends AppCompatActivity {
 
                             try {
                                 mainImageJsonObject = response.getJSONArray("data").getJSONObject(index).getJSONObject("images").getJSONObject("standard_resolution");
-                                mainTextJsonObject = response.getJSONArray("data").getJSONObject(index).optJSONObject("caption");
+                                mainTextJsonObject = response.getJSONArray("data").getJSONObject(index).getJSONObject("caption");
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                             try {
                                 imageUrlString = mainImageJsonObject.getString("url");
+
                                 if (response.getJSONArray("data").getJSONObject(index).isNull("caption")) {
                                     Textstring = " ";
-                                    TimeString = " ";
+                                    TimeString = response.getJSONArray("data").getJSONObject(index).getString("created_time");
                                 } else {
                                     Textstring = mainTextJsonObject.getString("text");
                                     TimeString = mainTextJsonObject.getString("created_time");
+
                                 }
 
 
@@ -210,53 +178,97 @@ public class MainActivity extends AppCompatActivity {
         ), "tag_json_obj");
 
 
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setOnTabSelectedListener(
+                new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
 
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        super.onTabSelected(tab);
+                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
+                        tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                    }
 
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+                        super.onTabUnselected(tab);
+                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.white);
+                        tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                    }
 
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        super.onTabReselected(tab);
+                    }
+                });
+        setupTabIcons();
+        viewPager.setPageMargin(40);
+        viewPager.setPageMarginDrawable(R.color.colorBackground);
+    }
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-        BottomNavigationItem newsTab = new BottomNavigationItem
-                (getResources().getString(R.string.main_tab_1), getResources().getColor(R.color.colorPrimaryDark), R.drawable.ic_home_black_24dp);
-        BottomNavigationItem videosTab = new BottomNavigationItem
-                (getResources().getString(R.string.main_tab_2), getResources().getColor(R.color.colorPrimaryDark), R.drawable.ic_play_circle_filled_black_24dp);
-        BottomNavigationItem residentsTab = new BottomNavigationItem
-                (getResources().getString(R.string.main_tab_3), getResources().getColor(R.color.colorPrimaryDark), R.drawable.ic_stars_black_24dp);
-        BottomNavigationItem accauntTab = new BottomNavigationItem
-                (getResources().getString(R.string.main_tab_4), getResources().getColor(R.color.colorPrimaryDark), R.drawable.ic_account_circle_black_24dp);
-
-        bottomNavigationView.setOnBottomNavigationItemClickListener(new OnBottomNavigationItemClickListener() {
-            @Override
-            public void onNavigationItemClick(int index) {
-                switch (index) {
-                    case 0:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new NewsFragment()).commit();
-                        break;
-                    case 1:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new VideoFragment()).commit();
-                        break;
-                    case 2:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new ResidentFragment()).commit();
-                        break;
-                    case 3:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_frame, new AccauntFragment()).commit();
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        });
-
-
-        bottomNavigationView.setTextInactiveSize(35);
-        bottomNavigationView.setTextActiveSize(37);
-        bottomNavigationView.addTab(newsTab);
-        bottomNavigationView.addTab(videosTab);
-        bottomNavigationView.addTab(residentsTab);
-        bottomNavigationView.addTab(accauntTab);
-
+    private void setupTabIcons() {
+        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.white);
+        int tabSelectedIconColor = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_black_48dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_play_circle_filled_black_48dp);
+        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ic_stars_black_48dp));
+        tabLayout.getTabAt(0).getIcon().setColorFilter(tabSelectedIconColor, PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(1).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(2).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
 
     }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new NewsFragment(), "ONE");
+        adapter.addFragment(new VideoFragment(), "TWO");
+        adapter.addFragment(new ResidentFragment(), "THREE");
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return null;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 

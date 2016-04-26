@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
-    android:background="@color/colorBackgroundDark"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:id="@+id/cvBaseke"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        card_view:cardCornerRadius="4dp"
-        android:background="@color/cardview"
-        card_view:cardElevation="5dp">
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cvShow"
+    card_view:cardBackgroundColor="@color/cardview"
+    android:clickable="true"
+    card_view:cardElevation="1dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -29,191 +22,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/layout_baseke"
-                android:background="@color/colorPrimaryDark"
-                android:layout_below="@id/imageBaseke"
+                android:background="@color/black"
+                android:alpha="0.5"
+                android:layout_alignBottom="@id/imageBaseke">
 
-                    >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textVertical"
-                    android:layout_margin="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Басеке"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textBasekeRight"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="end"
-                    android:textAlignment="textEnd"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Смотреть"
-                    android:textSize="15sp"/>
+
             </RelativeLayout>
-
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:id="@+id/cvVuzery"
-        android:layout_marginLeft="10dp"
-        android:background="@color/cardview"
-        android:layout_marginTop="10dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="5dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageVuzery"
-                android:adjustViewBounds="true"
-                android:layout_alignParentTop="true"
-                />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/layout_vuzery"
-                android:background="@color/colorPrimaryDark"
-                android:layout_below="@id/imageVuzery"
-
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textVuzeryLeft"
-                    android:layout_margin="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Вузеры"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textVuzeryRight"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="end"
-                    android:textAlignment="textEnd"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Смотреть"
-                    android:textSize="15sp"/>
-            </RelativeLayout>
-
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/cvKizikTimes"
-        android:background="@color/cardview"
-        android:layout_marginTop="10dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="5dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
+                android:id="@+id/textShow"
+                android:layout_margin="10dp"
+                android:background="#00000000"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="Басеке"
+                android:textSize="15sp"
+                android:layout_marginBottom="20dp"
+               android:layout_alignBottom="@id/imageBaseke"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:id="@+id/imageKizikTimes"
-                android:layout_alignParentTop="true"
+                android:id="@+id/textBasekeRight"
+                android:layout_margin="10dp"
+                android:layout_gravity="end"
+                android:textAlignment="textEnd"
+                android:background="#00000000"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:text="Смотреть"
+                android:textSize="15sp"
+                android:layout_marginBottom="15dp"
+                android:layout_alignBottom="@id/imageBaseke"
                 />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/layout_kizikTimes"
-                android:background="@color/colorPrimaryDark"
-                android:layout_below="@id/imageKizikTimes"
-
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textKizikTimesLeft"
-                    android:layout_margin="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Кызык Times"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textKizikTimesRight"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="end"
-                    android:textAlignment="textEnd"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Смотреть"
-                    android:textSize="15sp"/>
-            </RelativeLayout>
-
 
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/cvPatrul"
-        android:background="@color/cardview"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="5dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:id="@+id/imagePatrul"
-                android:layout_alignParentTop="true"
-                />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/layout_patrul"
-                android:background="@color/colorPrimaryDark"
-                android:layout_below="@id/imagePatrul"
-
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textPatrulLeft"
-                    android:layout_margin="10dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Патруль"
-                    android:textSize="15sp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textPatrulRight"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="end"
-                    android:textAlignment="textEnd"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:text="Смотреть"
-                    android:textSize="15sp"/>
-            </RelativeLayout>
-
-
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-   </LinearLayout>

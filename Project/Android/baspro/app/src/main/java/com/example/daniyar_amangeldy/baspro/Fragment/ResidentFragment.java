@@ -38,9 +38,6 @@ public class ResidentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_resident, container, false);
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbarResident);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
         realm = Realm.getInstance(getContext());
         rv = (RecyclerView) view.findViewById(R.id.rvResident);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));

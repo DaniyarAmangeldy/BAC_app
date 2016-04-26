@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +36,6 @@ import io.realm.RealmResults;
 public class NewsFragment extends Fragment {
     Realm realm;
     RealmChangeListener changeListener;
-    Toolbar mToolbar;
     SwipeRefreshLayout swipeRefreshLayout;
     private String imageUrlString;
     private String Textstring;
@@ -57,9 +54,6 @@ public class NewsFragment extends Fragment {
 
         View view =  inflater.inflate(R.layout.fragment_news, container, false);
         realm = Realm.getInstance(getContext());
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
 
         RecyclerView rv = (RecyclerView)view.findViewById(R.id.rv);
@@ -83,12 +77,12 @@ public class NewsFragment extends Fragment {
         insta.addChangeListener(changeListener);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.green, R.color.red, R.color.yellow);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,R.color.colorAccent,R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://api.instagram.com/v1/users/482993112/media/recent/?access_token=2253563781.137bf98.bd1c3693d2b84f80a7ab8d661f641437&scount=20",
+                AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://api.instagram.com/v1/users/2274030128/media/recent/?access_token=2274030128.54c83de.869c11553138464d905bf0057e4da6ee&scount=20",
                         new Response.Listener<JSONObject>() {
 
                             @Override
@@ -111,7 +105,7 @@ public class NewsFragment extends Fragment {
                                         imageUrlString = mainImageJsonObject.getString("url");
                                         if (response.getJSONArray("data").getJSONObject(index).isNull("caption")) {
                                             Textstring = " ";
-                                            TimeString = " ";
+                                            TimeString = response.getJSONArray("data").getJSONObject(index).getString("created_time");
                                         } else {
                                             Textstring = mainTextJsonObject.getString("text");
                                             TimeString = mainTextJsonObject.getString("created_time");
@@ -139,7 +133,7 @@ public class NewsFragment extends Fragment {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getContext(), getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                                Log.e("ConnectionTimeOut","Offline mode");
+                                Log.e("ConnectionTimeOut", "Offline mode");
                             }
                         }
                 ), "tag_json_obj");
@@ -148,7 +142,7 @@ public class NewsFragment extends Fragment {
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                }, 3000);
+                }, 2000);
 
 
 

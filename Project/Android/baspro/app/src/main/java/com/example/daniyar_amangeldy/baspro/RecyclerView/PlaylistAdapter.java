@@ -2,9 +2,7 @@ package com.example.daniyar_amangeldy.baspro.RecyclerView;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,6 @@ import com.example.daniyar_amangeldy.baspro.R;
 import com.example.daniyar_amangeldy.baspro.realm.PlaylistItems;
 import com.squareup.picasso.Picasso;
 
-import java.util.zip.Inflater;
-
 import io.realm.RealmResults;
 
 /**
@@ -25,12 +21,13 @@ import io.realm.RealmResults;
  */
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
     Context context;
-    private int selectedItem = 0;
+    private int selectedItem;
+    RealmResults<PlaylistItems> List;
 
-    RealmResults<PlaylistItems> list;
-    public PlaylistAdapter(Context context,RealmResults<PlaylistItems> list){
-        this.context = context;
-        this.list=list;
+    public PlaylistAdapter(Context context,RealmResults<PlaylistItems> List,int pos){
+        this.context=context;
+        this.List=List;
+        this.selectedItem= pos;
     }
 
 
@@ -44,12 +41,15 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.with(context).load(list.get(position).getImg_url()).into(holder.iv);
-        holder.playlistTime.setTextColor(Color.WHITE);
-        holder.itemView.setSelected(selectedItem == position);
         holder.playlistDesc.setTextColor(Color.WHITE);
-        holder.playlistDesc.setText(list.get(position).getName());
-        holder.playlistTime.setText(list.get(position).getTime());
+        holder.playlistTime.setTextColor(Color.WHITE);
+        holder.watch.setTextColor(Color.WHITE);
+        holder.itemView.setSelected(selectedItem == position);
+        Picasso.with(context).load(List.get(position).getImg_url()).into(holder.iv);
+        holder.playlistDesc.setText(List.get(position).getName());
+        holder.playlistTime.setText(List.get(position).getTime());
+        holder.watch.setText(List.get(position).getWatch());
+
 
 
     }
@@ -57,15 +57,16 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return List.size();
     }
 
     public  class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iv;
         TextView playlistTime;
-        RelativeLayout rl;
         View parentView;
         TextView playlistDesc;
+        RelativeLayout layout;
+        TextView watch;
         ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -74,14 +75,17 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                     notifyItemChanged(selectedItem);
                     selectedItem = getLayoutPosition();
                     notifyItemChanged(selectedItem);
+
                 }
             });
 
             this.parentView = itemView;
             itemView.setClickable(true);
+            layout = (RelativeLayout) itemView.findViewById(R.id.playlist_item);
             iv = (ImageView) itemView.findViewById(R.id.imagePlaylist);
             playlistTime = (TextView) itemView.findViewById(R.id.timePlaylist);
             playlistDesc = (TextView) itemView.findViewById(R.id.textPlaylist);
+            watch = (TextView) itemView.findViewById(R.id.watchCount);
         }
 
     }

@@ -5,5 +5,5 @@
         android:drawable="@color/selectedVideo"
         />
     <item
-        android:drawable="@color/colorBackgroundDark" />
+        android:drawable="@color/colorBackground" />
 </selector>

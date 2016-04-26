@@ -5,32 +5,72 @@
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     android:layout_marginLeft="10dp"
+    android:clickable="true"
     android:background="@drawable/bg_key"
     >
 <RelativeLayout
     android:id="@+id/playlist_item"
      android:layout_width="match_parent"
+    android:background="@drawable/bg_key"
     android:layout_height="wrap_content">
 
 
 
     <ImageView
         android:layout_width="100dp"
-        android:layout_height="56dp"
+        android:layout_height="75dp"
+        android:adjustViewBounds="true"
         android:id="@+id/imagePlaylist"
         android:background="@drawable/bg_key"
         android:src="@drawable/test"/>
 
-    <TextView
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:text="Infinity - One Direction - KHS  The overtunes"
-        android:layout_marginLeft="8dp"
-        android:paddingRight="10dp"
-        android:textSize="15sp"
-        android:id="@+id/textPlaylist"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/imagePlaylist"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/transparent"
+        android:layout_toRightOf="@id/imagePlaylist">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Infinity - One Direction - KHS  The overtunes"
+            android:layout_marginLeft="8dp"
+            android:background="@android:color/transparent"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/textPlaylist"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:layout_below="@id/textPlaylist"
+            android:layout_toRightOf="@id/imagePlaylist">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textPlaylist"
+                android:background="@android:color/transparent"
+                android:id="@+id/eyeIcon"
+                android:layout_toRightOf="@id/imagePlaylist"
+                android:src="@drawable/ic_remove_red_eye_white_24dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="602123123"
+                android:background="@android:color/transparent"
+                android:id="@+id/watchCount"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
 
 
     <FrameLayout
@@ -39,11 +79,12 @@
         android:id="@+id/colorTime"
         android:layout_alignBottom="@id/imagePlaylist"
         android:layout_alignRight="@id/imagePlaylist"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorAccent">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1:30"
+            android:background="@android:color/transparent"
             android:layout_gravity="center_vertical|center_horizontal"
             android:id="@+id/timePlaylist"
             android:textColor="@color/white"

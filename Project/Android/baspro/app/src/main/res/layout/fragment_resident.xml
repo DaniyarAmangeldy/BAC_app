@@ -1,4 +1,4 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinatorLayoutResident"
@@ -6,25 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.ResidentFragment">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayoutResident"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <!-- TODO: Update blank fragment layout -->
-
-
-
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarResident"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/toolbarcolorDark"
-            app:layout_scrollFlags="scroll|enterAlways" />
-
-    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
@@ -32,4 +13,4 @@
         android:id="@+id/rvResident"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
