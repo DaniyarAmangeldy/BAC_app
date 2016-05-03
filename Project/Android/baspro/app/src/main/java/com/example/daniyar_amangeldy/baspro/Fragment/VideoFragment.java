@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,12 @@ import io.realm.RealmResults;
  * A simple {@link Fragment} subclass.
  */
 public class VideoFragment extends Fragment {
-
+    Realm realm;
 
     public VideoFragment() {
+    }
+    public static VideoFragment newInstance(){
+        return new VideoFragment();
     }
 
 
@@ -32,13 +36,14 @@ public class VideoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_video, container, false);
-        final Realm realm = Realm.getInstance(getContext());
+        realm = Realm.getInstance(getContext());
         RealmResults shows = realm.where(TVshow.class).findAllAsync();
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.rvShow);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
         RVShowAdapter adapter = new RVShowAdapter(getContext(),shows);
         rv.setAdapter(adapter);
+        Log.e("check", realm.where(TVshow.class).findAll().get(0).getName());
         rv.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

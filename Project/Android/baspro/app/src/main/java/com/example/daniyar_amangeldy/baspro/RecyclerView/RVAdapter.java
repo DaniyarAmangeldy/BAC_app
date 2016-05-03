@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.daniyar_amangeldy.baspro.R;
@@ -39,6 +41,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         holder.itemView.clearAnimation();
     }
 
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.progressBar.setVisibility(View.VISIBLE);
@@ -56,6 +59,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
                             holder.progressBar.stop();
                             holder.progressBar.setVisibility(View.GONE);
                             holder.Photo.setBackgroundColor(Color.WHITE);
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                            RelativeLayout.LayoutParams paramsPhoto = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
+                            params.setMargins(0,35,0,20);
+                            holder.cv.setLayoutParams(params);
+                            holder.Photo.setLayoutParams(paramsPhoto);
                         }
                     }
 

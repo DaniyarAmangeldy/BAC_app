@@ -3,7 +3,10 @@ package com.example.daniyar_amangeldy.baspro.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.daniyar_amangeldy.baspro.MainActivity;
 import com.example.daniyar_amangeldy.baspro.R;
 import com.example.daniyar_amangeldy.baspro.RecyclerView.RVAdapterResident;
 import com.example.daniyar_amangeldy.baspro.RecyclerView.RecyclerItemClickListener;
@@ -31,6 +36,9 @@ public class ResidentFragment extends Fragment {
     RealmChangeListener changeListener;
     Toolbar mToolbar;
     public ResidentFragment() {
+    }
+    public static ResidentFragment newInstance(){
+        return new ResidentFragment();
     }
 
 
@@ -61,7 +69,16 @@ public class ResidentFragment extends Fragment {
                         intent.putExtra("name",realm.where(Resident.class).findAll().get(position).getName());
                         intent.putExtra("desc",realm.where(Resident.class).findAll().get(position).getDesc());
                         intent.putExtra("photo",realm.where(Resident.class).findAll().get(position).getPhoto());
-                        startActivityForResult(intent,0);
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                getActivity(),
+                                new Pair<View, String>(view.findViewById(R.id.resident_image),
+                                        getString(R.string.transition_name_circle)),
+                                new Pair<View, String>(view.findViewById(R.id.resident_text1),
+                                        getString(R.string.transition_name_name))
+
+                        );
+                        ActivityCompat.startActivityForResult(getActivity(), intent,1, options.toBundle());
+
                     }
                 })
         );

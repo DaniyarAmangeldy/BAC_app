@@ -29,6 +29,7 @@
                 android:id="@+id/residentDetailBackdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:transitionName="@string/transition_name_circle"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 android:src="@drawable/example"
@@ -39,7 +40,6 @@
                 android:id="@+id/residentDetailToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_collapseMode="pin"
                 />
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:transitionName="@string/transition_name_name"
             android:lineSpacingExtra="8dp"
             android:text="asd"
             android:textColor="@color/white"

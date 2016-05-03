@@ -18,6 +18,7 @@
                 android:id="@+id/imageBaseke"
                 android:layout_alignParentTop="true"
                 />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -25,36 +26,34 @@
                 android:background="@color/black"
                 android:alpha="0.5"
                 android:layout_alignBottom="@id/imageBaseke">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textShow"
+                    android:layout_margin="10dp"
+                    android:background="#00000000"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="Басеке"
+                    android:textSize="15sp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textBasekeRight"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="end"
+                    android:textAlignment="textEnd"
+                    android:background="#00000000"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:text="Смотреть"
+                    android:textSize="15sp"
 
+                    />
 
             </RelativeLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textShow"
-                android:layout_margin="10dp"
-                android:background="#00000000"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:text="Басеке"
-                android:textSize="15sp"
-                android:layout_marginBottom="20dp"
-               android:layout_alignBottom="@id/imageBaseke"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textBasekeRight"
-                android:layout_margin="10dp"
-                android:layout_gravity="end"
-                android:textAlignment="textEnd"
-                android:background="#00000000"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:text="Смотреть"
-                android:textSize="15sp"
-                android:layout_marginBottom="15dp"
-                android:layout_alignBottom="@id/imageBaseke"
-                />
+
 
 
         </RelativeLayout>

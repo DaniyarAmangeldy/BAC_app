@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/baseLayout"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorBackground"
     tools:context=".Youtube.youtubeActivity">
 
 
@@ -13,10 +13,13 @@
             android:id="@+id/youtube_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#000"
+
            />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
         android:id="@+id/otherViews"
 
         android:layout_below="@id/youtube_player">
@@ -28,19 +31,6 @@
             android:id="@+id/playList"
             android:scrollbars="vertical"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabSize="normal"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            app:layout_behavior="com.example.daniyar_amangeldy.baspro.ScrollAwareFABBehavior"
-            android:layout_alignBottom="@id/playList"
-            android:layout_alignRight="@id/playList"
-            app:layout_anchor="@id/playList"
-            app:backgroundTint="@color/colorAccent"
-            android:src="@drawable/ic_share_white_24dp"
-            android:id="@+id/shareButton"/>
 
 
 

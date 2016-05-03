@@ -1,10 +1,13 @@
 package com.example.daniyar_amangeldy.baspro.DetailActivities;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,17 +23,18 @@ import com.example.daniyar_amangeldy.baspro.RecyclerView.RecyclerItemClickListen
 import com.example.daniyar_amangeldy.baspro.Volley.AppController;
 import com.example.daniyar_amangeldy.baspro.Youtube.youtubeActivity;
 import com.example.daniyar_amangeldy.baspro.realm.PlaylistItems;
-import com.github.fabtransitionactivity.SheetLayout;
+import com.mypopsy.widget.FloatingSearchView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmObject;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class ShowDetailActivity extends AppCompatActivity implements SheetLayout.OnFabAnimationEndListener {
-    SheetLayout shl;
+public class ShowDetailActivity extends AppCompatActivity {
     JSONObject urlJSONObject;
     JSONObject TextJsonObject;
     String urlforTime;
@@ -38,8 +42,11 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
     String TextStringYoutube;
     String ImageUrlStringYoutube;
     String url;
+     int pos=0;
+    FloatingSearchView searchView;
     String VideoUrlYoutube;
     RecyclerView rv;
+    RealmResults<PlaylistItems> show;
     RVAdapterGrid adapter;
     Realm realm;
     RealmChangeListener changeListener;
@@ -49,24 +56,31 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
         realm = Realm.getInstance(this);
+        searchView = (FloatingSearchView) findViewById(R.id.search);
         rv = (RecyclerView) findViewById(R.id.rvShowDetail);
-
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
         url = "https://www.googleapis.com/youtube/v3/playlistItems?key=AIzaSyBawDQDFNHNE33OcXpUUqZGn2QSdZPv3pc&playlistId="+getIntent().getStringExtra("url")+"&part=id,snippet,contentDetails&order=date&maxResults=50";
         realm.beginTransaction();
         realm.where(PlaylistItems.class).findAll().clear();
         realm.commitTransaction();
         loadPlaylist(realm, url);
-        final RealmResults<PlaylistItems> show = realm.where(PlaylistItems.class).findAllAsync();
+        show = realm.where(PlaylistItems.class).findAllAsync();
         rv.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        adapter = new RVAdapterGrid(show,getApplicationContext());
+        adapter = new RVAdapterGrid(show,getApplicationContext(),new ContextCompat());
         rv.setAdapter(adapter);
         rv.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                for(int j=0;j<show.size();j++){
+                    if(show.get(j).getVideo_url().equals(adapter.getItem(position))){
+                        pos = j;
+                    }
+                }
                 Intent i = new Intent(ShowDetailActivity.this, youtubeActivity.class);
-                i.putExtra("position", position);
-                i.putExtra("playlist", show.get(position).getVideo_url());
-                i.putExtra("url",urlforTime);
+                i.putExtra("position",pos);
+                searchView.setActivated(false);
+                i.putExtra("playlist", realm.where(PlaylistItems.class).equalTo("video_url", adapter.getItem(position)).findFirst().getVideo_url());
+                i.putExtra("url", urlforTime);
                 startActivityForResult(i,0);
             }
         }));
@@ -81,6 +95,24 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
         };
 
         show.addChangeListener(changeListener);
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                RealmQuery<PlaylistItems> result = realm.where(PlaylistItems.class).contains("name",s.toString());
+                adapter.updateRealmResults(result.findAll());
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
 
@@ -168,12 +200,21 @@ public class ShowDetailActivity extends AppCompatActivity implements SheetLayout
             case android.R.id.home:
 
                 setResult(0);
+                Log.d("","");
 
                 finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+        finish();
 
     }
 }

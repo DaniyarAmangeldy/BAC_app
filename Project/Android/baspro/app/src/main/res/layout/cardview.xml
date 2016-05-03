@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools"
 
     >
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="359dp"
+        android:layout_height="350dp"
         android:id="@+id/cv"
-        card_view:cardBackgroundColor="@color/white"
+        card_view:cardBackgroundColor="@color/cardview"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="5dp"
         card_view:cardCornerRadius="4dp"
@@ -21,6 +21,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/cardview"
             >
 
 
@@ -28,22 +29,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:background="@color/white"
+                android:background="@color/cardview"
                 android:layout_alignParentTop="true"
                 android:id="@+id/Photo_layout">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="300dp"
                     android:adjustViewBounds="true"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorBackground"
                     android:id="@+id/person_photo"
 
                     />
                 <com.victor.loading.rotate.RotateLoading
                     android:id="@+id/rotateloadingPhoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     app:loading_width="5dp"
+                    android:background="@color/cardview"
                     android:visibility="gone"
                     android:layout_centerInParent="true"/>
 
@@ -54,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/person_name"
                 android:layout_margin="10dp"
+                android:background="@color/cardview"
                 android:layout_marginRight="5dp"
                 android:layout_below="@+id/Photo_layout"
                 android:textSize="15sp"

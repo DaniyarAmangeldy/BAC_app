@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">B.A.S. Production</string>
+    <string name="app_name">BAS Production</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -41,5 +41,8 @@
     <string name="VuzeryDesc">Три парня из разных городов поступают в высшее учебное заведение, и там, в стенах общаги и универа, с ними происходят разные истории.
 Всё, как у всех первокурсников — и строгие преподаватели, и первая любовь, и друзья, и старшекурсники со своими дедовщинскими законами.
 Всё, как у всех, вот только наши главные герои постоянно попадают в нелепые смешные ситуации. Одним словом, вузеры!</string>
+<string name="hint">Поиск</string>
+    <string name="transition_name_circle">transition:CIRCLE</string>
+    <string name="transition_name_name">transition:NAME</string>
 
 </resources>

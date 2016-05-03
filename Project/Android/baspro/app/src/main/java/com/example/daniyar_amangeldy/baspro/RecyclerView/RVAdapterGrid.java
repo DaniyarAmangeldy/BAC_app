@@ -2,6 +2,7 @@ package com.example.daniyar_amangeldy.baspro.RecyclerView;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.example.daniyar_amangeldy.baspro.realm.PlaylistItems;
 import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
 
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 /**
@@ -22,10 +24,13 @@ import io.realm.RealmResults;
  */
 public class RVAdapterGrid extends  RecyclerView.Adapter<RVAdapterGrid.ViewHolder>{
     Context context;
+    ContextCompat compat;
+    private RealmChangeListener listener;
     RealmResults<PlaylistItems> show;
-    public RVAdapterGrid(RealmResults<PlaylistItems> show, Context context){
+    public RVAdapterGrid(RealmResults<PlaylistItems> show, Context context, ContextCompat compat){
         this.show = show;
         this.context = context;
+        this.compat = compat;
     }
 
     @Override
@@ -34,12 +39,29 @@ public class RVAdapterGrid extends  RecyclerView.Adapter<RVAdapterGrid.ViewHolde
         ViewHolder pvh = new ViewHolder(v);
         return pvh;
     }
+    public String getItem(int position){
+        return show.get(position).getVideo_url();
+    }
+    public void updateRealmResults(RealmResults<PlaylistItems> queryResults) {
+        if(listener != null) {
+            // Making sure that Adapter is refreshed correctly if new RealmResults come from another Realm
+            if(this.show != null) {
+                show.removeChangeListener(listener);
+            }
+            if(queryResults != null) {
+                queryResults.addChangeListener(listener);
+            }
+        }
+
+        this.show = queryResults;
+        notifyDataSetChanged();
+    }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.progressBar.setVisibility(View.VISIBLE);
         holder.RecentDesc.setText(show.get(position).getName());
-        holder.RecentDesc.setTextColor(context.getColor(R.color.white));
+        holder.RecentDesc.setTextColor(compat.getColor(context,R.color.white));
         holder.progressBar.start();
         holder.RecentPhoto.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
         Picasso.with(context).load(show.get(position).getImg_url().toString())

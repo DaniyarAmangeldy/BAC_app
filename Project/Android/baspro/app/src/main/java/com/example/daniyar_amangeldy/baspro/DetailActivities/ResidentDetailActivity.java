@@ -29,8 +29,8 @@ public class ResidentDetailActivity extends AppCompatActivity {
         desc = (TextView) findViewById(R.id.residentDetailText);
         desc.setText(intent.getStringExtra("desc"));
         img = (ImageView) findViewById(R.id.residentDetailBackdrop);
-        img.setImageDrawable(getResources().getDrawable(R.drawable.patrul));
-        //getResources().getDrawable(intent.getIntExtra("photo", 0))
+        img.setImageDrawable(getResources().getDrawable(intent.getIntExtra("photo", 0)));
+
 
     }
 

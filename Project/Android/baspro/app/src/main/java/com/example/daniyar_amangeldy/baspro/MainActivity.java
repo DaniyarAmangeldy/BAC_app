@@ -1,14 +1,16 @@
 package com.example.daniyar_amangeldy.baspro;
 
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.daniyar_amangeldy.baspro.Fragment.AccauntFragment;
 import com.example.daniyar_amangeldy.baspro.Volley.AppController;
 import com.example.daniyar_amangeldy.baspro.Fragment.NewsFragment;
 import com.example.daniyar_amangeldy.baspro.Fragment.ResidentFragment;
@@ -29,8 +32,6 @@ import com.example.daniyar_amangeldy.baspro.realm.TVshow;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,13 +39,7 @@ public class MainActivity extends AppCompatActivity {
     Realm realm;
     private String imageUrlString;
     private String Textstring;
-    private String ImageUrlStringYoutube;
-    private String VideoUrlYoutube;
-    private String TextStringYoutube;
     private String TimeString;
-    private JSONObject urlJSONObject;
-    private JSONObject TitleJsonObject;
-    private JSONObject videoJSONObject;
     private JSONObject mainTextJsonObject;
     private JSONObject mainImageJsonObject;
     TabLayout tabLayout;
@@ -61,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         realm = Realm.getInstance(getApplicationContext());
-
+        Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.app_name));
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
 
         realm.beginTransaction();
         realm.where(Resident.class).findAll().clear();
@@ -179,9 +178,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(4);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.addTab(tabLayout.newTab());
+        tabLayout.addTab(tabLayout.newTab());
+        tabLayout.addTab(tabLayout.newTab());
+        tabLayout.addTab(tabLayout.newTab());
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        tabLayout.setTabsFromPagerAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
         tabLayout.setOnTabSelectedListener(
                 new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
 
@@ -215,42 +227,49 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_black_48dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_play_circle_filled_black_48dp);
         tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ic_stars_black_48dp));
+        tabLayout.getTabAt(3).setIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
         tabLayout.getTabAt(0).getIcon().setColorFilter(tabSelectedIconColor, PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(2).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
-
+        tabLayout.getTabAt(3).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new NewsFragment(), "ONE");
-        adapter.addFragment(new VideoFragment(), "TWO");
-        adapter.addFragment(new ResidentFragment(), "THREE");
-        viewPager.setAdapter(adapter);
-    }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
+        int mNumOfTabs;
+
+        public ViewPagerAdapter(FragmentManager fm,int numTabs) {
+            super(fm);
+            this.mNumOfTabs = numTabs;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return mFragmentList.get(position);
+            Log.e("position",String.valueOf(position));
+            switch (position) {
+                case 0:
+                   NewsFragment news = new NewsFragment();
+                    return news;
+                case 1:
+                    VideoFragment video = new VideoFragment();
+                    return video;
+                case 2:
+                    ResidentFragment resident = new ResidentFragment();
+                    return resident;
+                case 3:
+                    AccauntFragment accaunt = new AccauntFragment();
+                    return accaunt;
+                default:
+                    return null;
+            }
         }
 
         @Override
         public int getCount() {
-            return mFragmentList.size();
+            return mNumOfTabs;
         }
 
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
 
         @Override
         public CharSequence getPageTitle(int position) {

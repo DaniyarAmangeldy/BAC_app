@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -60,8 +61,6 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_youtube);
         realm = Realm.getInstance(this);
-
-        setTheme(R.style.AppTheme);
         decorView = getWindow().getDecorView();
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_player);
         youTubeView.initialize(DeveloperKey.DEVELOPER_KEY, this);
@@ -69,28 +68,10 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
         videoUrl = getIntent().getStringExtra("playlist");
         baseLayout = (LinearLayout) findViewById(R.id.baseLayout);
         playlist = realm.where(PlaylistItems.class).findAllAsync();
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
         doLayout();
 
-
-        fab = (FloatingActionButton) findViewById(R.id.shareButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String link = null;
-                    link = getResources().getString(R.string.sharevideo) + "\nhttp://youtu.be/" + videoUrl;
-
-                Intent share = new Intent();
-                share.setAction(Intent.ACTION_SEND);
-                share.putExtra(Intent.EXTRA_TEXT, link);
-                share.setType("text/plain");
-                startActivity(Intent.createChooser(share, getResources().getString(R.string.share)));
-
-
-
-
-            }
-        });
 
 
 
@@ -189,8 +170,8 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
         rv = (RecyclerView) findViewById(R.id.playList);
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PlaylistAdapter(getApplicationContext(), playlist,getIntent().getIntExtra("position",0));
-
         rv.setAdapter(adapter);
+
 
         changeListener = new RealmChangeListener() {
             @Override
@@ -204,9 +185,11 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
         rv.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                if(view.isSelected()){}else{
                 view.setSelected(true);
-                videoUrl = playlist.get(position).getVideo_url();
+                    videoUrl = playlist.get(position).getVideo_url();
                     player.loadVideo(videoUrl);
+                }
 
 
 
@@ -241,7 +224,9 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
             player.setFullscreen(false);
         } else{
             super.onBackPressed();
+            overridePendingTransition(R.anim.left_in, R.anim.right_out);
             finish();
+
             realm.beginTransaction();
             playlist.clear();
             realm.commitTransaction();
@@ -258,33 +243,25 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
         LinearLayout.LayoutParams playerParams =
                 (LinearLayout.LayoutParams) youTubeView.getLayoutParams();
         if (fullscreen) {
-            // When in fullscreen, the visibility of all other views than the player should be set to
-            // GONE and the player should be laid out across the whole screen.
             playerParams.width = LayoutParams.MATCH_PARENT;
             playerParams.height = LayoutParams.MATCH_PARENT;
-            playerParams.weight = 1;
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+
             otherViews.setVisibility(View.GONE);
-            fab.hide();
-        } else {
+
+        }else {
             otherViews.setVisibility(View.VISIBLE);
             ViewGroup.LayoutParams otherViewsParams = otherViews.getLayoutParams();
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                otherViews.setVisibility(View.GONE);
-                playerParams.width = otherViewsParams.width = MATCH_PARENT;
+                playerParams.width = otherViewsParams.width = 0;
                 playerParams.height = WRAP_CONTENT;
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+                otherViewsParams.height = MATCH_PARENT;
+                playerParams.weight = 1;
                 baseLayout.setOrientation(LinearLayout.HORIZONTAL);
             } else {
                 playerParams.width = otherViewsParams.width = MATCH_PARENT;
                 playerParams.height = WRAP_CONTENT;
-                otherViewsParams.height = WRAP_CONTENT;
-                otherViewsParams.width = MATCH_PARENT;
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                playerParams.weight = 0;
+                otherViewsParams.height = MATCH_PARENT;
                 baseLayout.setOrientation(LinearLayout.VERTICAL);
             }
         }
@@ -292,8 +269,16 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
     @Override
     public void onFullscreen(boolean isFullscreen) {
         fullscreen = isFullscreen;
+        if(isFullscreen){
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+
+    }else{
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         doLayout();
     }
+        }
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         doLayout();

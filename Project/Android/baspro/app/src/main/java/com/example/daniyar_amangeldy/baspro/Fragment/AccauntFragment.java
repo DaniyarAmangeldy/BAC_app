@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.daniyar_amangeldy.baspro.R;
+import com.google.android.gms.common.SignInButton;
 
 
 /**
@@ -21,7 +22,10 @@ public class AccauntFragment extends Fragment{
 
 
     private static final int REQUEST_CODE = 1;
-
+    public static AccauntFragment newInstance(){
+        return new AccauntFragment();
+    }
+SignInButton btn;
     public AccauntFragment() {
         // Required empty public constructor
     }
@@ -35,15 +39,7 @@ public class AccauntFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_accaunt, container, false);
         return view;
         }
-    public void onResume() {
-        super.onResume();
-
     }
 
-
-
-
-
-}
 
 

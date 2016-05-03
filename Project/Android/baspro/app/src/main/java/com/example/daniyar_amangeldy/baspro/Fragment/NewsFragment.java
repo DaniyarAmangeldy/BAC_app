@@ -46,6 +46,9 @@ public class NewsFragment extends Fragment {
     public NewsFragment() {
         // Required empty public constructor
     }
+    public static NewsFragment newInstance(){
+        return new NewsFragment();
+    }
 
 
     @Override
