@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 
 /**
  * Created by Daniyar_Amangeldy on 4/7/16.
@@ -16,6 +17,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         public void onItemClick(View view, int position);
     }
 
+
     GestureDetector mGestureDetector;
 
     public RecyclerItemClickListener(Context context, OnItemClickListener listener) {
@@ -25,8 +27,11 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
             public boolean onSingleTapUp(MotionEvent e) {
                 return true;
             }
+
         });
     }
+
+
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
@@ -43,6 +48,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
 
     }
 }

@@ -36,7 +36,6 @@ public class RVAdapterResident extends  RecyclerView.Adapter<RVAdapterResident.V
         holder.residentText2.setText(resident.get(position).getDesc());
         holder.residentText1.setTextColor(Color.WHITE);
         holder.residentText2.setTextColor(Color.WHITE);
-        holder.residentPhoto.setImageDrawable(context.getResources().getDrawable(resident.get(position).getPhoto()));
     }
 
     @Override

@@ -59,10 +59,8 @@ public class RVAdapterGrid extends  RecyclerView.Adapter<RVAdapterGrid.ViewHolde
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.progressBar.setVisibility(View.VISIBLE);
         holder.RecentDesc.setText(show.get(position).getName());
-        holder.RecentDesc.setTextColor(compat.getColor(context,R.color.white));
-        holder.progressBar.start();
+        holder.RecentDesc.setTextColor(compat.getColor(context,android.R.color.black));
         holder.RecentPhoto.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
         Picasso.with(context).load(show.get(position).getImg_url().toString())
                 .into(holder.RecentPhoto, new com.squareup.picasso.Callback() {
@@ -70,7 +68,6 @@ public class RVAdapterGrid extends  RecyclerView.Adapter<RVAdapterGrid.ViewHolde
                     public void onSuccess() {
                         holder.RecentPhoto.setBackgroundColor(Color.WHITE);
                         holder.playIcon.setVisibility(View.VISIBLE);
-                        holder.progressBar.setVisibility(View.GONE);
 
                     }
 
@@ -94,7 +91,6 @@ public class RVAdapterGrid extends  RecyclerView.Adapter<RVAdapterGrid.ViewHolde
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView RecentDesc;
-        RotateLoading progressBar;
         ImageView RecentPhoto;
         ImageView playIcon;
         ViewHolder(View itemView) {
@@ -103,7 +99,6 @@ public class RVAdapterGrid extends  RecyclerView.Adapter<RVAdapterGrid.ViewHolde
             RecentDesc = (TextView)itemView.findViewById(R.id.descRecent);
             RecentPhoto = (ImageView)itemView.findViewById(R.id.imageRecent);
             playIcon  = (ImageView)itemView.findViewById(R.id.playIcon);
-            progressBar = (RotateLoading) itemView.findViewById(R.id.rotateloadingPhoto1);
         }
     }
 

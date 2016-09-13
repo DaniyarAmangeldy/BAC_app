@@ -3,27 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
+    android:orientation="vertical"
     android:layout_marginBottom="5dp"
-    android:layout_marginLeft="10dp"
     android:clickable="true"
-    android:background="@drawable/bg_key"
     >
 <RelativeLayout
     android:id="@+id/playlist_item"
      android:layout_width="match_parent"
+    android:paddingTop="5dp"
+    android:paddingLeft="10dp"
     android:background="@drawable/bg_key"
+    android:paddingBottom="5dp"
+    android:duplicateParentState="true"
     android:layout_height="wrap_content">
 
 
 
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
+    android:layout_centerVertical="true"
+    android:duplicateParentState="true"
+    android:id="@+id/imageFrame">
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="75dp"
+        android:layout_width="130dp"
+        android:layout_height="70dp"
         android:adjustViewBounds="true"
         android:id="@+id/imagePlaylist"
-        android:background="@drawable/bg_key"
+        android:duplicateParentState="true"
         android:src="@drawable/test"/>
 
+
+</FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,23 +43,32 @@
         android:orientation="vertical"
         android:paddingRight="15dp"
         android:paddingLeft="15dp"
+        android:duplicateParentState="true"
         android:background="@android:color/transparent"
-        android:layout_toRightOf="@id/imagePlaylist">
+        android:layout_toRightOf="@id/imageFrame">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="2dp"
             android:text="Infinity - One Direction - KHS  The overtunes"
             android:background="@android:color/transparent"
             android:textSize="15sp"
-            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:duplicateParentState="true"
             android:id="@+id/textPlaylist"
 
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BAS TV"
+            android:id="@+id/channelName"
+            android:textColor="@color/colorText"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
+            android:duplicateParentState="true"
             android:background="@android:color/transparent"
             android:layout_below="@id/textPlaylist"
             android:layout_toRightOf="@id/imagePlaylist">
@@ -57,23 +78,21 @@
                 android:layout_below="@id/textPlaylist"
                 android:background="@android:color/transparent"
                 android:id="@+id/eyeIcon"
+                android:duplicateParentState="true"
+                android:layout_gravity="center"
                 android:layout_toRightOf="@id/imagePlaylist"
-                android:src="@drawable/eye"/>
+                android:src="@drawable/visible"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:duplicateParentState="true"
                 android:text="602123123"
                 android:background="@android:color/transparent"
                 android:id="@+id/watchCount"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"/>
         </LinearLayout>
-        <View
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        />
+
 
 
     </LinearLayout>
@@ -82,16 +101,21 @@
 
 
     <FrameLayout
-        android:layout_width="40dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:padding="3dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:duplicateParentState="true"
         android:id="@+id/colorTime"
-        android:layout_alignBottom="@id/imagePlaylist"
-        android:layout_alignRight="@id/imagePlaylist"
-        android:background="@color/colorAccent">
+        android:layout_alignBottom="@id/imageFrame"
+        android:layout_alignRight="@id/imageFrame"
+        android:background="@color/colorAccentTrans">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1:30"
+            android:duplicateParentState="true"
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical|center_horizontal"
             android:id="@+id/timePlaylist"
@@ -103,5 +127,6 @@
 
 
 </RelativeLayout>
+
 
 </LinearLayout>

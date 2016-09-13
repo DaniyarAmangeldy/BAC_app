@@ -1,28 +1,30 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     >
-    <com.mypopsy.widget.FloatingSearchView
-        android:id="@+id/search"
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarShowDetail"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:paddingTop="16dp"
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
-        android:background="@color/colorBackground"
-        app:fsv_icon="@drawable/search"
-        android:hint="@string/hint"
-        />
+        android:background="@color/colorPrimary" />
+
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </FrameLayout>
 
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/search"
+            android:layout_below="@id/toolbar_container"
             android:id="@+id/rvShowDetail">
 
         </android.support.v7.widget.RecyclerView>

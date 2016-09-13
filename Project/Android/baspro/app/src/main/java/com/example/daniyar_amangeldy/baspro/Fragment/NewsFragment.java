@@ -4,6 +4,7 @@ package com.example.daniyar_amangeldy.baspro.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,14 +57,14 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_news, container, false);
-        realm = Realm.getInstance(getContext());
+        realm = Realm.getDefaultInstance();
 
 
         RecyclerView rv = (RecyclerView)view.findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
         RealmResults insta = realm.where(Instagram.class).findAllAsync();
-        final RVAdapter adapter = new RVAdapter(insta,view.getContext());
+        final RVAdapter adapter = new RVAdapter(insta,view.getContext(),new ContextCompat());
         rv.setAdapter(adapter);
 
         changeListener = new RealmChangeListener() {
@@ -80,7 +81,7 @@ public class NewsFragment extends Fragment {
         insta.addChangeListener(changeListener);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent,R.color.colorAccent,R.color.colorAccent);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,R.color.colorPrimary,R.color.colorPrimary);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,6 +91,7 @@ public class NewsFragment extends Fragment {
 
                             @Override
                             public void onResponse(JSONObject response) {
+                                swipeRefreshLayout.setRefreshing(false);
                                 realm.beginTransaction();
                                 Log.e("Request JSON", "Making a request...");
                                 realm.where(Instagram.class).findAll().clear();
@@ -140,12 +142,7 @@ public class NewsFragment extends Fragment {
                             }
                         }
                 ), "tag_json_obj");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 2000);
+//
 
 
 

@@ -6,4 +6,8 @@
     <dimen name="tab_padding_bottom">16dp</dimen>
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
+    <item name="x_scale_factor" format="float" type="dimen">2.3</item>
+    <item name="y_scale_factor" format="float" type="dimen">2.3</item>
+    <dimen name="top_fragment_height">200dip</dimen>
+    <dimen name="top_fragment_margin">10dip</dimen>
 </resources>

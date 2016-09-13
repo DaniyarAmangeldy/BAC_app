@@ -46,12 +46,13 @@ public class ResidentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_resident, container, false);
-        realm = Realm.getInstance(getContext());
+        realm = Realm.getDefaultInstance();
         rv = (RecyclerView) view.findViewById(R.id.rvResident);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         RealmResults residents  = realm.where(Resident.class).findAllAsync();
         final RVAdapterResident adapter = new RVAdapterResident(residents, getContext());
         rv.setAdapter(adapter);
+
         changeListener = new RealmChangeListener() {
             @Override
             public void onChange() {

@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00BCD4</color>
-    <color name="colorPrimaryDark">#4b636d</color>
-    <color name="colorAccent">#00BCD4</color>
-    <color name="colorBackground">#37474F</color>
+    <color name="colorPrimary">#FF9800</color>
+    <color name="colorPrimaryDark">#FB8C00</color>
+    <color name="colorBackground">#E0E0E0</color>
     <color name="colorText">#727272</color>
-    <color name="red">#F44336</color>
-    <color name="green">#4CAF50</color>
-    <color name="yellow">#FFEB3B</color>
-    <color name = "black">#000000</color>
-    <color name = "selectedVideo">#22FFFFFF</color>
-    <color name="white">#FFFFFF</color>
+    <color name="tabSelected">#99FFF3E0</color>
+    <color name ="selectedVideo">#FF9800</color>
     <color name="tab">#f5f5f5</color>
-    <color name="cardview">#455A64</color>
-    <color name="statusBarColor">#E0E0E0</color>
-    <color name="colorAccentTrans">#EEFF9800</color>
+    <color name="cardview">#FAFAFA</color>
+    <color name="colorAccentTrans">#AA000000</color>
 
 
 </resources>

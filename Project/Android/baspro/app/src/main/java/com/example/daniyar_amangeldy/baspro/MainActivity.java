@@ -1,20 +1,29 @@
 package com.example.daniyar_amangeldy.baspro;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import io.realm.DynamicRealm;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmMigration;
+import io.realm.RealmSchema;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -46,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
 
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -55,12 +72,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        realm = Realm.getInstance(getApplicationContext());
+        RealmConfiguration config = new RealmConfiguration.Builder(this)
+                .name("config")
+                .schemaVersion(0)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
+        realm = Realm.getDefaultInstance();
+
+
+        if(!isNetworkAvailable()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(getResources().getString(R.string.internet_alert_title))
+                    .setMessage(getResources().getString(R.string.internet_alert_desc))
+                    .setIcon(R.drawable.ic_warning_black_24dp)
+                    .setCancelable(false)
+                    .setNegativeButton(getResources().getString(R.string.ok),
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                    finish();
+                                }
+                            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+
         Toolbar toolbar =(Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
+
+
+
 
         realm.beginTransaction();
         realm.where(Resident.class).findAll().clear();
@@ -123,58 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 //275855784 || 482993112
-        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.GET, "https://api.instagram.com/v1/users/2274030128/media/recent/?access_token=2274030128.54c83de.869c11553138464d905bf0057e4da6ee&scount=20",
-                new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        realm.beginTransaction();
-                        realm.where(Instagram.class).findAll().clear();
-                        for (int index = 0; index < 20; index++) {
-
-                            try {
-                                mainImageJsonObject = response.getJSONArray("data").getJSONObject(index).getJSONObject("images").getJSONObject("standard_resolution");
-                                mainTextJsonObject = response.getJSONArray("data").getJSONObject(index).getJSONObject("caption");
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                imageUrlString = mainImageJsonObject.getString("url");
-
-                                if (response.getJSONArray("data").getJSONObject(index).isNull("caption")) {
-                                    Textstring = " ";
-                                    TimeString = response.getJSONArray("data").getJSONObject(index).getString("created_time");
-                                } else {
-                                    Textstring = mainTextJsonObject.getString("text");
-                                    TimeString = mainTextJsonObject.getString("created_time");
-
-                                }
-
-
-                                Instagram insta = realm.createObject(Instagram.class);
-                                insta.setText(Textstring);
-                                insta.setUrl(imageUrlString);
-                                insta.setTime(TimeString);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                        realm.commitTransaction();
-                        realm.refresh();
-                    }
-                },
-
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.internet_error), Toast.LENGTH_SHORT).show();
-                    }
-                }
-        ), "tag_json_obj");
 
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -183,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
-        tabLayout.addTab(tabLayout.newTab());
+      //  tabLayout.addTab(tabLayout.newTab());
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
@@ -200,14 +193,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         super.onTabSelected(tab);
-                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
+                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.white);
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
                     }
 
                     @Override
                     public void onTabUnselected(TabLayout.Tab tab) {
                         super.onTabUnselected(tab);
-                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.white);
+                        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.tabSelected);
                         tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
                     }
 
@@ -222,16 +215,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupTabIcons() {
-        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.white);
-        int tabSelectedIconColor = ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary);
+        int tabIconColor = ContextCompat.getColor(getApplicationContext(), R.color.tabSelected);
+        int tabSelectedIconColor = ContextCompat.getColor(getApplicationContext(), R.color.white);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_home_black_48dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_play_circle_filled_black_48dp);
         tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ic_stars_black_48dp));
-        tabLayout.getTabAt(3).setIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
+     //   tabLayout.getTabAt(3).setIcon(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
         tabLayout.getTabAt(0).getIcon().setColorFilter(tabSelectedIconColor, PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(1).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
         tabLayout.getTabAt(2).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
-        tabLayout.getTabAt(3).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+       // tabLayout.getTabAt(3).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
     }
 
 
@@ -257,9 +250,9 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     ResidentFragment resident = new ResidentFragment();
                     return resident;
-                case 3:
+             /*   case 3:
                     AccauntFragment accaunt = new AccauntFragment();
-                    return accaunt;
+                    return accaunt; */
                 default:
                     return null;
             }

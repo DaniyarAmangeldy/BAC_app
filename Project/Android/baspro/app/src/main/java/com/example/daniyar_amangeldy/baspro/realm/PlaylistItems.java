@@ -1,16 +1,19 @@
 package com.example.daniyar_amangeldy.baspro.realm;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Daniyar_Amangeldy on 4/15/16.
  */
 public class PlaylistItems extends RealmObject {
     public String name;
-    public String img_url;
+
     public String video_url;
     public String time;
     public String watch;
+    public String token;
+    public String img_url;
 
     public void setName(String name){
         this.name = name;
@@ -34,4 +37,6 @@ public class PlaylistItems extends RealmObject {
     public String getTime(){return time;}
     public String getWatch(){return watch;}
     public void setWatch(String watch){this.watch = watch;}
+    public void setToken(String token){this.token = token;}
+    public String getToken(){return this.token;}
 }

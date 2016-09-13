@@ -44,5 +44,8 @@
 <string name="hint">Поиск</string>
     <string name="transition_name_circle">transition:CIRCLE</string>
     <string name="transition_name_name">transition:NAME</string>
+    <string name="internet_alert_title">Нет подключения!</string>
+    <string name="internet_alert_desc">Не удается подключиться к сети, попробуйте позже.</string>
+    <string name="ok">ок</string>
 
 </resources>

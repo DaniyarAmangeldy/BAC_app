@@ -3,12 +3,12 @@ package com.example.daniyar_amangeldy.baspro.Youtube;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -47,8 +47,8 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
     RealmChangeListener changeListener;
     RealmResults<PlaylistItems> playlist;
     String TimeStringYoutube;
-    FloatingActionButton fab;
     private boolean fullscreen=false;
+    LinearLayoutManager mLayoutManager;
     public Realm realm;
     View decorView;
     RelativeLayout otherViews;
@@ -56,11 +56,12 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
     LinearLayout baseLayout;
     PlaylistAdapter adapter;
     YouTubePlayerView youTubeView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_youtube);
-        realm = Realm.getInstance(this);
+        realm = Realm.getDefaultInstance();
         decorView = getWindow().getDecorView();
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_player);
         youTubeView.initialize(DeveloperKey.DEVELOPER_KEY, this);
@@ -168,8 +169,10 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
 
 
         rv = (RecyclerView) findViewById(R.id.playList);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new PlaylistAdapter(getApplicationContext(), playlist,getIntent().getIntExtra("position",0));
+        mLayoutManager = new LinearLayoutManager(this);
+        rv.setLayoutManager(mLayoutManager);
+        rv.setHasFixedSize(true);
+        adapter = new PlaylistAdapter(getApplicationContext(), playlist,getIntent().getIntExtra("position",0),new ContextCompat());
         rv.setAdapter(adapter);
 
 
@@ -180,7 +183,9 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
             }
         };
         playlist.addChangeListener(changeListener);
-        rv.setHasFixedSize(true);
+
+
+
 
         rv.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -196,6 +201,12 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
 
             }
         }));
+
+
+
+
+
+
 
 
     }
@@ -227,10 +238,6 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
             overridePendingTransition(R.anim.left_in, R.anim.right_out);
             finish();
 
-            realm.beginTransaction();
-            playlist.clear();
-            realm.commitTransaction();
-            realm.refresh();
 
         }
     }
@@ -256,13 +263,13 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
                 playerParams.height = WRAP_CONTENT;
                 otherViewsParams.height = MATCH_PARENT;
                 playerParams.weight = 1;
-                baseLayout.setOrientation(LinearLayout.HORIZONTAL);
+
             } else {
                 playerParams.width = otherViewsParams.width = MATCH_PARENT;
                 playerParams.height = WRAP_CONTENT;
                 playerParams.weight = 0;
                 otherViewsParams.height = MATCH_PARENT;
-                baseLayout.setOrientation(LinearLayout.VERTICAL);
+
             }
         }
     }
@@ -272,6 +279,7 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
         if(isFullscreen){
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 
     }else{
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
@@ -283,6 +291,10 @@ public class youtubeActivity extends YouTubeFailureRecoveryActivity implements Y
         super.onConfigurationChanged(newConfig);
         doLayout();
     }
+
+
+
+
 
 
 }

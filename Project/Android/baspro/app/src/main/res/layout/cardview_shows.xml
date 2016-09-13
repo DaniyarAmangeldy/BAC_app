@@ -16,6 +16,7 @@
                 android:adjustViewBounds="true"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageBaseke"
+                android:src="@drawable/example"
                 android:layout_alignParentTop="true"
                 />
 
@@ -23,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:id="@+id/layout_baseke"
-                android:background="@color/black"
+                android:background="@android:color/black"
                 android:alpha="0.5"
                 android:layout_alignBottom="@id/imageBaseke">
                 <TextView

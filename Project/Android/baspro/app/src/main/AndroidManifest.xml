@@ -3,6 +3,7 @@
     package="com.example.daniyar_amangeldy.baspro">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".Volley.AppController"
@@ -35,6 +36,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".DetailActivities.ShowDetailActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity android:name=".Youtube_player" />
         <activity
             android:name=".Youtube.youtubeActivity"
@@ -47,7 +54,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.daniyar_amangeldy.baspro.MainActivity" />
         </activity>
-        <activity android:name=".DetailActivities.ShowDetailActivity"></activity>
     </application>
 
 </manifest>

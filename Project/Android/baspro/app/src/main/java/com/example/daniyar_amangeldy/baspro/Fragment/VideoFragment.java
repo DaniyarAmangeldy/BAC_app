@@ -36,7 +36,7 @@ public class VideoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_video, container, false);
-        realm = Realm.getInstance(getContext());
+        realm = Realm.getDefaultInstance();
         RealmResults shows = realm.where(TVshow.class).findAllAsync();
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.rvShow);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
@@ -56,6 +56,7 @@ public class VideoFragment extends Fragment {
                 startActivity(i);
             }
         }));
+
         return view;
     }
 

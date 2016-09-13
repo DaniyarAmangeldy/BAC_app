@@ -2,6 +2,7 @@ package com.example.daniyar_amangeldy.baspro.RecyclerView;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,15 +19,23 @@ import com.example.daniyar_amangeldy.baspro.R;
 import com.example.daniyar_amangeldy.baspro.realm.Instagram;
 import com.squareup.picasso.Picasso;
 import com.victor.loading.rotate.RotateLoading;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 import io.realm.RealmResults;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     Context context;
     int lastPosition=-1;
+    ContextCompat compat;
     RealmResults<Instagram> post;
-    public RVAdapter(RealmResults<Instagram> post,Context context){
+    public RVAdapter(RealmResults<Instagram> post, Context context, ContextCompat compat){
         this.post = post;
         this.context = context;
+        this.compat = compat;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -45,6 +54,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.progressBar.setVisibility(View.VISIBLE);
+        holder.Desc.setVisibility(View.INVISIBLE);
+        holder.time.setVisibility(View.INVISIBLE);
         Animation animation = AnimationUtils.loadAnimation(context,
                 (position > lastPosition) ? R.anim.up_from_bottom
                         : R.anim.down_from_top);
@@ -59,6 +70,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
                             holder.progressBar.stop();
                             holder.progressBar.setVisibility(View.GONE);
                             holder.Photo.setBackgroundColor(Color.WHITE);
+                            holder.Desc.setVisibility(View.VISIBLE);
+                            holder.time.setVisibility(View.VISIBLE);
                             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
                             RelativeLayout.LayoutParams paramsPhoto = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.WRAP_CONTENT);
                             params.setMargins(0,35,0,20);
@@ -76,23 +89,29 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
 
 
         holder.Desc.setText(post.get(position).getText().toString());
+        holder.Desc.setTextColor(Color.BLACK);
+        holder.time.setTextColor(compat.getColor(context,R.color.colorText));
+        holder.time.setText(getDateCurrentTimeZone(Long.valueOf(post.get(position).getTime().toString())));
+        holder.time.setTextSize(13);
 
     }
 
-   /* public  String getDateCurrentTimeZone(long timestamp) {
+    public  String getDateCurrentTimeZone(long timestamp) {
         try{
             Calendar calendar = Calendar.getInstance();
             TimeZone tz = TimeZone.getDefault();
             calendar.setTimeInMillis(timestamp * 1000);
             calendar.add(Calendar.MILLISECOND, tz.getOffset(calendar.getTimeInMillis()));
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMMMMMMMMMMM в kk:mm");
             Date currenTimeZone = (Date) calendar.getTime();
+
+
             return sdf.format(currenTimeZone);
         }catch (Exception e) {
         }
         return "";
     }
-    */
+
 
     @Override
     public int getItemCount() {
@@ -106,6 +125,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
         CardView cv;
         TextView Desc;
         ImageView Photo;
+        TextView time;
         RotateLoading progressBar;
         ViewHolder(View itemView) {
             super(itemView);
@@ -115,6 +135,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.ViewHolder>{
             Photo.setHorizontalScrollBarEnabled(false);
             Photo.setVerticalScrollBarEnabled(false);
             progressBar = (RotateLoading) itemView.findViewById(R.id.rotateloadingPhoto);
+            time = (TextView) itemView.findViewById(R.id.Newstime);
         }
     }
 
